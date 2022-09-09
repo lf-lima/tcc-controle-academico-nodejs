@@ -1,1 +1,0 @@
-Controle acadêmico web feito em Node.js como trabalho de concluso do curso de Engenharia de Computação na UniPinhal.
