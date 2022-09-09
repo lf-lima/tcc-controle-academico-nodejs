@@ -1,0 +1,23 @@
+{
+  "name": "tcc-controle-academico-nodejs",
+  "version": "1.0.0",
+  "description": "Controle acadêmico web feito em Node.js como trabalho de concluso do curso de Engenharia de Computação na UniPinhal.",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc --project tsconfig.json && node ./dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lf-lima/tcc-controle-academico-nodejs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lf-lima/tcc-controle-academico-nodejs/issues"
+  },
+  "homepage": "https://github.com/lf-lima/tcc-controle-academico-nodejs#readme",
+  "devDependencies": {
+    "typescript": "^4.8.3"
+  }
+}
