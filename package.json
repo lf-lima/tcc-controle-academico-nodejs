@@ -4,7 +4,7 @@
   "description": "Controle acadêmico web feito em Node.js como trabalho de concluso do curso de Engenharia de Computação na UniPinhal.",
   "main": "index.js",
   "scripts": {
-    "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register dist/4-framework/server/server.js",
+    "start": "node -r ./node_modules/ts-node/register/transpile-only -r ./node_modules/tsconfig-paths/register dist/4-framework/server/server.js",
     "start:dev": "ts-node-dev --transpile-only --respawn --ignore-watch node_modules -r tsconfig-paths/register ./src/4-framework/server/server.ts",
     "postinstall": "tsc",
     "lint": "eslint . --ext .ts"
