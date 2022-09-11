@@ -29,7 +29,6 @@ export class ExpressServer implements IExpressServer {
   }
 
   public middlewares (): void {
-    this.app.use(bodyParser.urlencoded({ extended: true }))
     this.app.use(cors())
     this.app.use(express.json())
   }
