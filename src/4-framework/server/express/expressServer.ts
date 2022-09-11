@@ -1,9 +1,9 @@
 import express, { Router } from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
-import { IBaseServer } from '../base/iBaseServer'
-import { port } from '../../const/port'
-import { IMainExpressRouter, MainExpressRouter } from '../../routers/express/mainExpressRouter'
+import { IBaseServer } from '#framework/server/base/iBaseServer'
+import { port } from '#framework/const/port'
+import { IMainExpressRouter, MainExpressRouter } from '#framework/routers/express/mainExpressRouter'
 
 export interface IExpressServer extends IBaseServer<Router> {
   app: express.Application
@@ -24,7 +24,7 @@ export class ExpressServer implements IExpressServer {
   connection (): void {
     this.app.listen(port, () => {
       console.log('SERVER ON')
-      console.log(`Listen in http://localhost:${port}`)
+      console.log(`Listen in http://localhost:${port}\n`)
     })
   }
 

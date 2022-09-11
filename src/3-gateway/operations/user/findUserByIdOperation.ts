@@ -1,11 +1,11 @@
-import { IUser } from '../../../1-domain/entities/iUser'
-import { FindUserByIdDTO } from '../../../2-business/dto/user'
-import { IFindUserByIdUseCase } from '../../../2-business/useCases/user/findUserByIdUseCase'
-import { IHttpResponseError } from '../../modules/errors/http/httpReponseErrors'
-import { IHttpRequest } from '../../modules/http/httpRequest'
-import { HttpBadRequestResponse, HttpInternalErrorResponse, HttpSuccessResponse, IHttpResponse } from '../../modules/http/httpResponse'
-import { IInputFindUserById, InputFindUserById } from '../../serializers/user/inputFindUserById'
-import { IBaseOperation } from '../base/iBaseOperation'
+import { IUser } from '#domain/entities/iUser'
+import { FindUserByIdDTO } from '#business/dto/user'
+import { IFindUserByIdUseCase } from '#business/useCases/user/findUserByIdUseCase'
+import { IHttpResponseError } from '#gateway/modules/errors/http/httpResponseErrors'
+import { IHttpRequest } from '#gateway/modules/http/httpRequest'
+import { HttpBadRequestResponse, HttpInternalErrorResponse, HttpSuccessResponse, IHttpResponse } from '#gateway/modules/http/httpResponse'
+import { IInputFindUserById, InputFindUserById } from '#gateway/serializers/user/inputFindUserById'
+import { IBaseOperation } from '#gateway/operations/base/iBaseOperation'
 
 export type IFindUserByIdOperation = IBaseOperation<IInputFindUserById, IUser>
 

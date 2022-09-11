@@ -1,9 +1,9 @@
-import { IUser } from '../../../1-domain/entities/iUser'
-import { IFindAllUsersUseCase } from '../../../2-business/useCases/user/findAllUsersUseCase'
-import { IHttpResponseError } from '../../modules/errors/http/httpReponseErrors'
-import { IHttpRequest } from '../../modules/http/httpRequest'
-import { HttpInternalErrorResponse, HttpSuccessResponse, IHttpResponse } from '../../modules/http/httpResponse'
-import { IBaseOperation } from '../base/iBaseOperation'
+import { IUser } from '#domain/entities/iUser'
+import { IFindAllUsersUseCase } from '#business/useCases/user/findAllUsersUseCase'
+import { IHttpResponseError } from '#gateway/modules/errors/http/httpResponseErrors'
+import { IHttpRequest } from '#gateway/modules/http/httpRequest'
+import { HttpInternalErrorResponse, HttpSuccessResponse, IHttpResponse } from '#gateway/modules/http/httpResponse'
+import { IBaseOperation } from '#gateway/operations/base/iBaseOperation'
 
 export type IFindAllUsersOperation = IBaseOperation<null, IUser[]>
 

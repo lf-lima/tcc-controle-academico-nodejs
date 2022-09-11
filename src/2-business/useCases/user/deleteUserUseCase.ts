@@ -1,8 +1,8 @@
-import { IDeleteUserDTO } from '../../dto/user'
-import { IUserRepository } from '../../repositories/iUserRepository'
+import { IDeleteUserDTO } from '#business/dto/user'
+import { IUserRepository } from '#business/repositories/iUserRepository'
 
 export interface IDeleteUserUseCase {
-  run(dto: IDeleteUserDTO): Promise<void>
+  run (dto: IDeleteUserDTO): Promise<void>
 }
 
 export class DeleteUserUseCase implements IDeleteUserUseCase {
@@ -13,10 +13,6 @@ export class DeleteUserUseCase implements IDeleteUserUseCase {
   }
 
   async run (dto: IDeleteUserDTO): Promise<void> {
-    try {
-      await this.repository.delete(dto.userId)
-    } catch (error: any) {
-      throw new Error(error)
-    }
+    await this.repository.delete(dto.userId)
   }
 }

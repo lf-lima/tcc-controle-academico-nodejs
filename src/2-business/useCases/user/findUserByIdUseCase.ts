@@ -1,9 +1,9 @@
-import { IUser } from '../../../1-domain/entities/iUser'
-import { IFindUserByIdDTO } from '../../dto/user'
-import { IUserRepository } from '../../repositories/iUserRepository'
+import { IUser } from '#domain/entities/iUser'
+import { IFindUserByIdDTO } from '#business/dto/user'
+import { IUserRepository } from '#business/repositories/iUserRepository'
 
 export interface IFindUserByIdUseCase {
-  run(dto: IFindUserByIdDTO): Promise<IUser>
+  run (dto: IFindUserByIdDTO): Promise<IUser>
 }
 
 export class FindUserByIdUseCase implements IFindUserByIdUseCase {
@@ -14,10 +14,6 @@ export class FindUserByIdUseCase implements IFindUserByIdUseCase {
   }
 
   async run (dto: IFindUserByIdDTO): Promise<IUser> {
-    try {
-      return await this.repository.findById(dto.userId)
-    } catch (error: any) {
-      throw new Error(error)
-    }
+    return await this.repository.findById(dto.userId)
   }
 }

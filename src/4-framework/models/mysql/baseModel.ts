@@ -1,5 +1,5 @@
-import { IBaseEntity } from '../../../1-domain/entities/iBaseEntity'
 import { Column, CreatedAt, Model, UpdatedAt } from 'sequelize-typescript'
+import { IBaseEntity } from '#domain/entities/iBaseEntity'
 
 export default class BaseModel<TModel> extends Model<TModel> implements IBaseEntity {
   @Column({

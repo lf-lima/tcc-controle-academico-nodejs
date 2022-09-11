@@ -1,4 +1,4 @@
-import { IBaseRouter } from '../base/iBaseRouter'
+import { IBaseRouter } from '#framework/routers/base/iBaseRouter'
 
 export interface IMainRouter<TRouter> {
   router: TRouter

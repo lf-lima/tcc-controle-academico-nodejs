@@ -1,5 +1,5 @@
-import { IBaseServer } from '../server/base/iBaseServer'
-import { IDBConnection } from '../database/base/iConnection'
+import { IBaseServer } from '#framework/server/base/iBaseServer'
+import { IDBConnection } from '#framework/database/base/iConnection'
 
 export interface IApp<TRouter, TDBConfig> {
   server: IBaseServer<TRouter>,

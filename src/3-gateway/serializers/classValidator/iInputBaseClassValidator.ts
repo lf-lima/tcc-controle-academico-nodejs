@@ -1,7 +1,6 @@
 import { validate } from 'class-validator'
-import { IUser } from '../../../1-domain/entities/iUser'
-import { IHttpResponseError } from '../../modules/errors/http/httpReponseErrors'
-import { IInputBase } from '../base/iInputBase'
+import { IHttpResponseError } from '#gateway/modules/errors/http/httpResponseErrors'
+import { IInputBase } from '#gateway/serializers/base/iInputBase'
 
 export type IInputBaseClassValidator = IInputBase<IHttpResponseError>
 

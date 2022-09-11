@@ -1,7 +1,7 @@
-import { IHttpRequest } from '../../modules/http/httpRequest'
-import { IHttpResponse } from '../../modules/http/httpResponse'
-import { IHttpResponseError } from '../../modules/errors/http/httpReponseErrors'
+import { IHttpRequest } from '#gateway/modules/http/httpRequest'
+import { IHttpResponse } from '#gateway/modules/http/httpResponse'
+import { IHttpResponseError } from '#gateway/modules/errors/http/httpResponseErrors'
 
-export interface IBaseOperation<IInput, TReponse> {
-  run(httpRequest: IHttpRequest<IInput>): Promise<IHttpResponse<TReponse | IHttpResponseError[]>>
+export interface IBaseOperation<IInput, TResponse> {
+  run(httpRequest: IHttpRequest<IInput>): Promise<IHttpResponse<TResponse | IHttpResponseError[]>>
 }

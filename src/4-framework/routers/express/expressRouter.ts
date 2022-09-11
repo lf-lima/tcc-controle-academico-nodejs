@@ -1,14 +1,16 @@
 import { Router } from 'express'
-import { IBaseRouter } from '../base/iBaseRouter'
+import { IBaseRouter, IRoute } from '#framework/routers/base/iBaseRouter'
 
 export type IExpressRouter = IBaseRouter<Router>
 
 export class ExpressRouter implements IExpressRouter {
   public router!: Router
-  public route!: string
+  public baseRoute!: string
+  public routes!: IRoute[]
 
-  constructor (route: string) {
-    this.route = route
+  constructor (baseRoute: string, routes: IRoute[]) {
+    this.baseRoute = baseRoute
     this.router = Router()
+    this.routes = routes
   }
 }

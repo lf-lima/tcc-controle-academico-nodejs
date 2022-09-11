@@ -1,13 +1,13 @@
-import { IUser } from '../../../1-domain/entities/iUser'
-import { FindUserByEmailDTO, FindUserByIdDTO, UpdateUserDTO } from '../../../2-business/dto/user'
-import { IFindUserByEmailUseCase } from '../../../2-business/useCases/user/findUserByEmailUseCase'
-import { IFindUserByIdUseCase } from '../../../2-business/useCases/user/findUserByIdUseCase'
-import { IUpdateUserUseCase } from '../../../2-business/useCases/user/updateUserUseCase'
-import { IHttpResponseError } from '../../modules/errors/http/httpReponseErrors'
-import { IHttpRequest } from '../../modules/http/httpRequest'
-import { HttpBadRequestResponse, HttpInternalErrorResponse, HttpSuccessResponse, IHttpResponse } from '../../modules/http/httpResponse'
-import { IInputUpdateUser, InputUpdateUser } from '../../serializers/user/inputUpdateUser'
-import { IBaseOperation } from '../base/iBaseOperation'
+import { IUser } from '#domain/entities/iUser'
+import { FindUserByEmailDTO, FindUserByIdDTO, UpdateUserDTO } from '#business/dto/user'
+import { IFindUserByEmailUseCase } from '#business/useCases/user/findUserByEmailUseCase'
+import { IFindUserByIdUseCase } from '#business/useCases/user/findUserByIdUseCase'
+import { IUpdateUserUseCase } from '#business/useCases/user/updateUserUseCase'
+import { IHttpResponseError } from '#gateway/modules/errors/http/httpResponseErrors'
+import { IHttpRequest } from '#gateway/modules/http/httpRequest'
+import { HttpBadRequestResponse, HttpInternalErrorResponse, HttpSuccessResponse, IHttpResponse } from '#gateway/modules/http/httpResponse'
+import { IInputUpdateUser, InputUpdateUser } from '#gateway/serializers/user/inputUpdateUser'
+import { IBaseOperation } from '#gateway/operations/base/iBaseOperation'
 
 export type IUpdateUserOperation = IBaseOperation<IInputUpdateUser, IUser>
 

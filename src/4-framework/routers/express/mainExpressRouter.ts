@@ -1,7 +1,7 @@
 import { Router } from 'express'
-import { routers } from '../../const/routers'
-import { IBaseRouter } from '../base/iBaseRouter'
-import { IMainRouter } from '../base/iMainRouter'
+import { routers } from '#framework/const/routers'
+import { IBaseRouter } from '#framework/routers/base/iBaseRouter'
+import { IMainRouter } from '#framework/routers/base/iMainRouter'
 
 export type IMainExpressRouter = IMainRouter<Router>
 
@@ -15,8 +15,17 @@ export class MainExpressRouter implements IMainExpressRouter {
   }
 
   routing (): void {
+    console.log('\n= Routing =')
+    console.log('----------')
     for (const currentRouter of this.routers) {
-      this.router.use(currentRouter.route, currentRouter.router)
+      for (const { method, routePath, operationAdapter } of currentRouter.routes) {
+        currentRouter.router[method](routePath, operationAdapter.adapt())
+        console.log(`${method.toUpperCase()} ${currentRouter.baseRoute}${routePath}`)
+      }
+      console.log('----------')
+
+      this.router.use(currentRouter.baseRoute, currentRouter.router)
     }
+    console.log('\n')
   }
 }

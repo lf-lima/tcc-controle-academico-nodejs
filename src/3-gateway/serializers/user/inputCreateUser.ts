@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString, IsEmail, Length } from 'class-validator'
-import { Match } from '../base/decorators'
-import { IInputBaseClassValidator, InputBaseClassValidator } from '../classValidator/iInputBaseClassValidator'
+import { Match } from '#gateway/serializers/base/decorators'
+import { IInputBaseClassValidator, InputBaseClassValidator } from '#gateway/serializers/classValidator/iInputBaseClassValidator'
 
 export interface IInputCreateUser extends IInputBaseClassValidator{
   email: string

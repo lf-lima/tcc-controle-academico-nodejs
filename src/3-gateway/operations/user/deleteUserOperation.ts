@@ -1,11 +1,11 @@
-import { DeleteUserDTO } from '../../../2-business/dto/user'
-import { IDeleteUserUseCase } from '../../../2-business/useCases/user/deleteUserUseCase'
-import { IFindUserByIdUseCase } from '../../../2-business/useCases/user/findUserByIdUseCase'
-import { IHttpResponseError } from '../../modules/errors/http/httpReponseErrors'
-import { IHttpRequest } from '../../modules/http/httpRequest'
-import { HttpBadRequestResponse, HttpInternalErrorResponse, HttpSuccessResponse, IHttpResponse } from '../../modules/http/httpResponse'
-import { IInputDeleteUser, InputDeleteUser } from '../../serializers/user/inputDeleteUser'
-import { IBaseOperation } from '../base/iBaseOperation'
+import { DeleteUserDTO } from '#business/dto/user'
+import { IDeleteUserUseCase } from '#business/useCases/user/deleteUserUseCase'
+import { IFindUserByIdUseCase } from '#business/useCases/user/findUserByIdUseCase'
+import { IHttpResponseError } from '#gateway/modules/errors/http/httpResponseErrors'
+import { IHttpRequest } from '#gateway/modules/http/httpRequest'
+import { HttpBadRequestResponse, HttpInternalErrorResponse, HttpSuccessResponse, IHttpResponse } from '#gateway/modules/http/httpResponse'
+import { IInputDeleteUser, InputDeleteUser } from '#gateway/serializers/user/inputDeleteUser'
+import { IBaseOperation } from '#gateway/operations/base/iBaseOperation'
 
 export type IDeleteUserOperation = IBaseOperation<IInputDeleteUser, string>
 

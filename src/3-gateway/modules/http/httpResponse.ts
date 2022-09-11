@@ -1,4 +1,4 @@
-import { IHttpResponseError } from '../errors/http/httpReponseErrors'
+import { IHttpResponseError } from '#gateway/modules/errors/http/httpResponseErrors'
 
 export interface IHttpResponse<TBody> {
   statusCode: number,
@@ -30,7 +30,7 @@ export class HttpSuccessResponse<TBody> extends HttpResponse<TBody> {
 
 export type IHttpInternalErrorResponse = IHttpResponse<IHttpResponseError[]>
 export class HttpInternalErrorResponse extends HttpResponse<IHttpResponseError[]> {
-  constructor (errorMessage: string) {
+  constructor (error: any) {
     super({
       statusCode: 500,
       message: 'Server Internal Error',
@@ -38,7 +38,7 @@ export class HttpInternalErrorResponse extends HttpResponse<IHttpResponseError[]
       body: [{
         property: 'internal',
         messages: [
-          errorMessage
+          error.message
         ]
       }]
     })

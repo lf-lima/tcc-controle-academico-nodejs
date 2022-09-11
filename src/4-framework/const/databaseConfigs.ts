@@ -9,5 +9,5 @@ export const baseSequelizeOptions = {
   username: process.env.DB_USER,
   password: process.env.DB_PASS,
   storage: ':memory:',
-  models: [path.resolve(__dirname, '..', 'models', 'sequelize', '*.model.ts')]
+  models: [path.resolve(__dirname, '..', 'models', 'mysql', '*.model.ts')]
 } as SequelizeOptions

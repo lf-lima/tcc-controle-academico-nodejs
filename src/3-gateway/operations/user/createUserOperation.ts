@@ -1,12 +1,12 @@
-import { CreateUserDTO, FindUserByEmailDTO } from '../../../2-business/dto/user'
-import { IHttpRequest } from '../../modules/http/httpRequest'
-import { HttpBadRequestResponse, HttpInternalErrorResponse, HttpSuccessResponse, IHttpResponse } from '../../modules/http/httpResponse'
-import { IInputCreateUser, InputCreateUser } from '../../serializers/user/inputCreateUser'
-import { ICreateUserUseCase } from '../../../2-business/useCases/user/createUserUseCase'
-import { IFindUserByEmailUseCase } from '../../../2-business/useCases/user/findUserByEmailUseCase'
-import { IHttpResponseError } from '../../modules/errors/http/httpReponseErrors'
-import { IUser } from '../../../1-domain/entities/iUser'
-import { IBaseOperation } from '../base/iBaseOperation'
+import { CreateUserDTO, FindUserByEmailDTO } from '#business/dto/user'
+import { IHttpRequest } from '#gateway/modules/http/httpRequest'
+import { HttpBadRequestResponse, HttpInternalErrorResponse, HttpSuccessResponse, IHttpResponse } from '#gateway/modules/http/httpResponse'
+import { IInputCreateUser, InputCreateUser } from '#gateway/serializers/user/inputCreateUser'
+import { ICreateUserUseCase } from '#business/useCases/user/createUserUseCase'
+import { IFindUserByEmailUseCase } from '#business/useCases/user/findUserByEmailUseCase'
+import { IHttpResponseError } from '#gateway/modules/errors/http/httpResponseErrors'
+import { IUser } from '#domain/entities/iUser'
+import { IBaseOperation } from '#gateway/operations/base/iBaseOperation'
 
 export type ICreateUserOperation = IBaseOperation<IInputCreateUser, IUser>
 
@@ -47,8 +47,8 @@ export class CreateUserOperation implements ICreateUserOperation {
       }
 
       return new HttpSuccessResponse(await this.createUserUseCase.run(createUserDTO))
-    } catch (error: any) {
-      return new HttpInternalErrorResponse(error.message)
+    } catch (error) {
+      return new HttpInternalErrorResponse(error)
     }
   }
 }

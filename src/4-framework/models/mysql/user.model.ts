@@ -1,6 +1,6 @@
 import { Column, Table } from 'sequelize-typescript'
-import { IUser } from '../../../1-domain/entities/iUser'
-import BaseModel from './baseModel'
+import { IUser } from '#domain/entities/iUser'
+import BaseModel from '#framework/models/mysql/baseModel'
 
 @Table
 export default class User extends BaseModel<User> implements IUser {

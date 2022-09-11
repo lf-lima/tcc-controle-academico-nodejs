@@ -1,6 +1,6 @@
 import { SequelizeOptions } from 'sequelize-typescript'
-import { baseSequelizeOptions } from '../../const/databaseConfigs'
-import { IDBConfig } from '../base/iConfig'
+import { baseSequelizeOptions } from '#framework/const/databaseConfigs'
+import { IDBConfig } from '#framework/database/base/iConfig'
 
 export type ISequelizeDBConfig = IDBConfig<SequelizeOptions>
 

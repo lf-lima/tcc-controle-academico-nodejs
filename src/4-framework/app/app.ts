@@ -1,6 +1,6 @@
-import { IApp } from './iApp'
-import { IBaseServer } from '../server/base/iBaseServer'
-import { IDBConnection } from '../database/base/iConnection'
+import { IApp } from '#framework/app/iApp'
+import { IBaseServer } from '#framework/server/base/iBaseServer'
+import { IDBConnection } from '#framework/database/base/iConnection'
 
 export class App<TRouter, TDBConfig> implements IApp<TRouter, TDBConfig> {
   public server: IBaseServer<TRouter>

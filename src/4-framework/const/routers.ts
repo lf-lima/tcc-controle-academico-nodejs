@@ -1,3 +1,3 @@
-import { UserRouter } from '../routers/userRouter'
+import { UserRouter } from '#framework/routers/userRouter'
 
 export const routers = [new UserRouter()]
