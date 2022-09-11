@@ -1,14 +1,8 @@
 import { IsNotEmpty, IsString, IsEmail, Length } from 'class-validator'
 import { Match } from '#gateway/serializers/base/decorators'
-import { IInputBaseClassValidator, InputBaseClassValidator } from '#gateway/serializers/classValidator/iInputBaseClassValidator'
+import { InputBaseValidator } from '#gateway/serializers/base/inputBaseValidator'
 
-export interface IInputCreateUser extends IInputBaseClassValidator{
-  email: string
-  password: string
-  confirmPassword: string
-}
-
-export class InputCreateUser extends InputBaseClassValidator implements IInputCreateUser {
+export class InputCreateUser extends InputBaseValidator {
   @IsNotEmpty()
   @IsEmail()
   public email!: string

@@ -12,6 +12,9 @@ import { FindUserByIdOperation } from '#gateway/operations/user/findUserByIdOper
 import { UpdateUserOperation } from '#gateway/operations/user/updateUserOperation'
 import { UserRepository } from '#framework/repositories/userRepository'
 import { ExpressRouter } from '#framework/routers/express/expressRouter'
+import { InputFindUserById } from '#gateway/serializers/user/inputFindUserById'
+import { InputCreateUser } from '#gateway/serializers/user/inputCreateUser'
+import { InputUpdateUser } from '#gateway/serializers/user/inputUpdateUser'
 
 export class UserRouter extends ExpressRouter {
   constructor () {
@@ -28,6 +31,7 @@ export class UserRouter extends ExpressRouter {
       {
         method: 'get',
         routePath: '/:userId',
+        input: InputFindUserById,
         operationAdapter: new ExpressOperationAdapter(
           new FindUserByIdOperation(
             new FindUserByIdUseCase(new UserRepository())
@@ -37,6 +41,7 @@ export class UserRouter extends ExpressRouter {
       {
         method: 'post',
         routePath: '/',
+        input: InputCreateUser,
         operationAdapter: new ExpressOperationAdapter(
           new CreateUserOperation(
             new CreateUserUseCase(new UserRepository()),
@@ -47,6 +52,7 @@ export class UserRouter extends ExpressRouter {
       {
         method: 'put',
         routePath: '/:userId',
+        input: InputUpdateUser,
         operationAdapter: new ExpressOperationAdapter(
           new UpdateUserOperation(
             new UpdateUserUseCase(new UserRepository()),
@@ -58,6 +64,7 @@ export class UserRouter extends ExpressRouter {
       {
         method: 'delete',
         routePath: '/:userId',
+        input: InputUpdateUser,
         operationAdapter: new ExpressOperationAdapter(
           new DeleteUserOperation(
             new DeleteUserUseCase(new UserRepository()),

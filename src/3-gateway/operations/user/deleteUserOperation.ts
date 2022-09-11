@@ -3,11 +3,11 @@ import { IDeleteUserUseCase } from '#business/useCases/user/deleteUserUseCase'
 import { IFindUserByIdUseCase } from '#business/useCases/user/findUserByIdUseCase'
 import { IHttpResponseError } from '#gateway/modules/errors/http/httpResponseErrors'
 import { IHttpRequest } from '#gateway/modules/http/httpRequest'
-import { HttpBadRequestResponse, HttpInternalErrorResponse, HttpSuccessResponse, IHttpResponse } from '#gateway/modules/http/httpResponse'
-import { IInputDeleteUser, InputDeleteUser } from '#gateway/serializers/user/inputDeleteUser'
+import { HttpBadRequestResponse, HttpInternalErrorResponse, HttpOkResponse, IHttpResponse } from '#gateway/modules/http/httpResponse'
+import { InputDeleteUser } from '#gateway/serializers/user/inputDeleteUser'
 import { IBaseOperation } from '#gateway/operations/base/iBaseOperation'
 
-export type IDeleteUserOperation = IBaseOperation<IInputDeleteUser, string>
+export type IDeleteUserOperation = IBaseOperation<InputDeleteUser, string>
 
 export class DeleteUserOperation implements IDeleteUserOperation {
   private deleteUserUseCase!: IDeleteUserUseCase
@@ -18,19 +18,9 @@ export class DeleteUserOperation implements IDeleteUserOperation {
     this.findUserByIdUseCase = findUserByIdUseCase
   }
 
-  async run (httpRequest: IHttpRequest<IInputDeleteUser>): Promise<IHttpResponse<string | IHttpResponseError[]>> {
+  async run (input: InputDeleteUser): Promise<IHttpResponse<string | IHttpResponseError[]>> {
     try {
-      httpRequest.body.userId = Number(httpRequest.body.userId)
-
-      const inputDeleteUser = new InputDeleteUser(httpRequest.body)
-
-      const errors = await inputDeleteUser.validate()
-
-      if (inputDeleteUser.hasError) {
-        return new HttpBadRequestResponse(errors)
-      }
-
-      const dto = new DeleteUserDTO(httpRequest.body)
+      const dto = new DeleteUserDTO(input)
 
       const user = await this.findUserByIdUseCase.run(dto)
 
@@ -45,7 +35,7 @@ export class DeleteUserOperation implements IDeleteUserOperation {
 
       await this.deleteUserUseCase.run(dto)
 
-      return new HttpSuccessResponse('User Deleted')
+      return new HttpOkResponse('User Deleted')
     } catch (error) {
       return new HttpInternalErrorResponse(error)
     }

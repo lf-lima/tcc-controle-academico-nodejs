@@ -1,13 +1,13 @@
 import { Router } from 'express'
 import { routers } from '#framework/const/routers'
-import { IBaseRouter } from '#framework/routers/base/iBaseRouter'
 import { IMainRouter } from '#framework/routers/base/iMainRouter'
+import { ExpressRouter } from '#framework/routers/express/expressRouter'
 
 export type IMainExpressRouter = IMainRouter<Router>
 
 export class MainExpressRouter implements IMainExpressRouter {
   public router!: Router
-  public routers!: IBaseRouter<Router>[]
+  public routers!: ExpressRouter[]
 
   constructor () {
     this.router = Router()
@@ -18,8 +18,8 @@ export class MainExpressRouter implements IMainExpressRouter {
     console.log('\n= Routing =')
     console.log('----------')
     for (const currentRouter of this.routers) {
-      for (const { method, routePath, operationAdapter } of currentRouter.routes) {
-        currentRouter.router[method](routePath, operationAdapter.adapt())
+      for (const { method, routePath, operationAdapter, input } of currentRouter.routes) {
+        currentRouter.router[method](routePath, operationAdapter.adapt(input))
         console.log(`${method.toUpperCase()} ${currentRouter.baseRoute}${routePath}`)
       }
       console.log('----------')

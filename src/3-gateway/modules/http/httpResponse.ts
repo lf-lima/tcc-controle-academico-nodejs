@@ -21,7 +21,7 @@ class HttpResponse<TBody> implements IHttpResponse<TBody> {
   }
 }
 
-export class HttpSuccessResponse<TBody> extends HttpResponse<TBody> {
+export class HttpOkResponse<TBody> extends HttpResponse<TBody> {
   constructor (body: TBody) {
     super({ statusCode: 200, message: 'Ok', body })
   }

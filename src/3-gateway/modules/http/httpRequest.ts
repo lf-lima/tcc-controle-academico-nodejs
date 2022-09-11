@@ -1,11 +1,11 @@
-export interface IHttpRequest<TInput> {
-  body: TInput
+export interface IHttpRequest {
+  body: any
 }
 
-export class HttpRequest<TInput> implements IHttpRequest<TInput> {
-  public body!: TInput
+export class HttpRequest implements IHttpRequest {
+  public body!: any
 
-  constructor (obj: Partial<HttpRequest<TInput>>) {
+  constructor (obj: Partial<HttpRequest>) {
     Object.assign(this, obj)
   }
 }

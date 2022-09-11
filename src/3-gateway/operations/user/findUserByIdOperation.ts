@@ -2,12 +2,11 @@ import { IUser } from '#domain/entities/iUser'
 import { FindUserByIdDTO } from '#business/dto/user'
 import { IFindUserByIdUseCase } from '#business/useCases/user/findUserByIdUseCase'
 import { IHttpResponseError } from '#gateway/modules/errors/http/httpResponseErrors'
-import { IHttpRequest } from '#gateway/modules/http/httpRequest'
-import { HttpBadRequestResponse, HttpInternalErrorResponse, HttpSuccessResponse, IHttpResponse } from '#gateway/modules/http/httpResponse'
-import { IInputFindUserById, InputFindUserById } from '#gateway/serializers/user/inputFindUserById'
+import { HttpBadRequestResponse, HttpInternalErrorResponse, HttpOkResponse, IHttpResponse } from '#gateway/modules/http/httpResponse'
+import { InputFindUserById } from '#gateway/serializers/user/inputFindUserById'
 import { IBaseOperation } from '#gateway/operations/base/iBaseOperation'
 
-export type IFindUserByIdOperation = IBaseOperation<IInputFindUserById, IUser>
+export type IFindUserByIdOperation = IBaseOperation<InputFindUserById, IUser>
 
 export class FindUserByIdOperation implements IFindUserByIdOperation {
   private findUserByIdUseCase!: IFindUserByIdUseCase
@@ -16,19 +15,9 @@ export class FindUserByIdOperation implements IFindUserByIdOperation {
     this.findUserByIdUseCase = findUserByIdUseCase
   }
 
-  async run (httpRequest: IHttpRequest<IInputFindUserById>): Promise<IHttpResponse<IUser | IHttpResponseError[]>> {
+  async run (input: InputFindUserById): Promise<IHttpResponse<IUser | IHttpResponseError[]>> {
     try {
-      httpRequest.body.userId = Number(httpRequest.body.userId)
-
-      const inputFindUserById = new InputFindUserById(httpRequest.body)
-
-      const errors = await inputFindUserById.validate()
-
-      if (inputFindUserById.hasError) {
-        return new HttpBadRequestResponse(errors)
-      }
-
-      const dto = new FindUserByIdDTO(httpRequest.body)
+      const dto = new FindUserByIdDTO(input)
 
       const user = await this.findUserByIdUseCase.run(dto)
 
@@ -41,7 +30,7 @@ export class FindUserByIdOperation implements IFindUserByIdOperation {
         }])
       }
 
-      return new HttpSuccessResponse(user)
+      return new HttpOkResponse(user)
     } catch (error) {
       return new HttpInternalErrorResponse(error)
     }

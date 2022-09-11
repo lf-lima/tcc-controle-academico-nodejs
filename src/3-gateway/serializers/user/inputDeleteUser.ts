@@ -1,11 +1,7 @@
 import { IsInt, IsNotEmpty, IsNumber, Min } from 'class-validator'
-import { InputBaseClassValidator } from '#gateway/serializers/classValidator/iInputBaseClassValidator'
+import { InputBaseValidator } from '#gateway/serializers/base/inputBaseValidator'
 
-export interface IInputDeleteUser {
-  userId: number
-}
-
-export class InputDeleteUser extends InputBaseClassValidator implements IInputDeleteUser {
+export class InputDeleteUser extends InputBaseValidator {
   @IsNotEmpty()
   @IsNumber()
   @IsInt()

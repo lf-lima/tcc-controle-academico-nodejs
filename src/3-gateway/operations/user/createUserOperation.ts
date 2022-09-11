@@ -1,16 +1,18 @@
 import { CreateUserDTO, FindUserByEmailDTO } from '#business/dto/user'
-import { IHttpRequest } from '#gateway/modules/http/httpRequest'
-import { HttpBadRequestResponse, HttpInternalErrorResponse, HttpSuccessResponse, IHttpResponse } from '#gateway/modules/http/httpResponse'
-import { IInputCreateUser, InputCreateUser } from '#gateway/serializers/user/inputCreateUser'
+import {
+  HttpBadRequestResponse,
+  HttpInternalErrorResponse,
+  HttpOkResponse,
+  IHttpResponse
+} from '#gateway/modules/http/httpResponse'
+import { InputCreateUser } from '#gateway/serializers/user/inputCreateUser'
 import { ICreateUserUseCase } from '#business/useCases/user/createUserUseCase'
 import { IFindUserByEmailUseCase } from '#business/useCases/user/findUserByEmailUseCase'
 import { IHttpResponseError } from '#gateway/modules/errors/http/httpResponseErrors'
 import { IUser } from '#domain/entities/iUser'
 import { IBaseOperation } from '#gateway/operations/base/iBaseOperation'
 
-export type ICreateUserOperation = IBaseOperation<IInputCreateUser, IUser>
-
-export class CreateUserOperation implements ICreateUserOperation {
+export class CreateUserOperation implements IBaseOperation<InputCreateUser, IUser> {
   private createUserUseCase!: ICreateUserUseCase
   private findUserByEmailUseCase!: IFindUserByEmailUseCase
 
@@ -19,19 +21,11 @@ export class CreateUserOperation implements ICreateUserOperation {
     this.findUserByEmailUseCase = findUserByEmailUseCase
   }
 
-  async run (httpRequest: IHttpRequest<IInputCreateUser>): Promise<IHttpResponse<IUser | IHttpResponseError[]>> {
+  async run (input: InputCreateUser): Promise<IHttpResponse<IUser | IHttpResponseError[]>> {
     try {
-      const inputCreateUser = new InputCreateUser(httpRequest.body)
+      const createUserDTO = new CreateUserDTO(input)
 
-      const errors = await inputCreateUser.validate()
-
-      if (inputCreateUser.hasError) {
-        return new HttpBadRequestResponse(errors)
-      }
-
-      const createUserDTO = new CreateUserDTO(httpRequest.body)
-
-      const findUserByEmailDTO = new FindUserByEmailDTO(httpRequest.body)
+      const findUserByEmailDTO = new FindUserByEmailDTO(input)
 
       const userAlreadyExists = await this.findUserByEmailUseCase.run(findUserByEmailDTO)
 
@@ -46,7 +40,7 @@ export class CreateUserOperation implements ICreateUserOperation {
         ])
       }
 
-      return new HttpSuccessResponse(await this.createUserUseCase.run(createUserDTO))
+      return new HttpOkResponse(await this.createUserUseCase.run(createUserDTO))
     } catch (error) {
       return new HttpInternalErrorResponse(error)
     }
