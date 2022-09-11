@@ -22,7 +22,7 @@ export class ExpressServer implements IExpressServer {
   }
 
   connection (): void {
-    this.app.listen(port, () => {
+    this.app.listen(process.env.PORT || port, () => {
       console.log('SERVER ON')
       console.log(`Listen in http://localhost:${port}\n`)
     })
