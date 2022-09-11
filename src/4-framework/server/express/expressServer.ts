@@ -32,7 +32,7 @@ export class ExpressServer implements IExpressServer {
     this.app.use(cors({
       origin: '*'
     }))
-    // this.app.use(express.json())
+    this.app.use(express.json())
   }
 
   public routes (): void {
