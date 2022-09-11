@@ -5,7 +5,7 @@ config()
 
 export const baseSequelizeOptions = {
   database: process.env.DB,
-  host: process.env.DB_HOST,
+  host: process.env.CLEARDB_DATABASE_URL,
   username: process.env.DB_USER,
   password: process.env.DB_PASS,
   storage: ':memory:',
