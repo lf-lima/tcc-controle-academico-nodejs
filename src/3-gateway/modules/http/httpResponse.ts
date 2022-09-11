@@ -6,7 +6,7 @@ export interface IHttpResponse<TBody> {
   body: TBody,
   hasError: boolean
 }
-// generic class
+
 class HttpResponse<TBody> implements IHttpResponse<TBody> {
   public statusCode!: number
 
@@ -21,14 +21,12 @@ class HttpResponse<TBody> implements IHttpResponse<TBody> {
   }
 }
 
-export type IHttpSuccessReponse<TBody> = IHttpResponse<TBody>
 export class HttpSuccessResponse<TBody> extends HttpResponse<TBody> {
   constructor (body: TBody) {
-    super({ statusCode: 200, message: 'Success', body })
+    super({ statusCode: 200, message: 'Ok', body })
   }
 }
 
-export type IHttpInternalErrorResponse = IHttpResponse<IHttpResponseError[]>
 export class HttpInternalErrorResponse extends HttpResponse<IHttpResponseError[]> {
   constructor (error: any) {
     super({
@@ -45,14 +43,12 @@ export class HttpInternalErrorResponse extends HttpResponse<IHttpResponseError[]
   }
 }
 
-export type IHttpUnauthorizedResponse = IHttpResponse<IHttpResponseError[]>
 export class HttpUnauthorizedResponse extends HttpResponse<IHttpResponseError[]> {
   constructor (body: IHttpResponseError[]) {
     super({ statusCode: 401, message: 'Unauthorized', hasError: true, body })
   }
 }
 
-export type IHttpBadRequestResponse = IHttpResponse<IHttpResponseError[]>
 export class HttpBadRequestResponse extends HttpResponse<IHttpResponseError[]> {
   constructor (body: IHttpResponseError[]) {
     super({ statusCode: 400, message: 'Bad Request', hasError: true, body })

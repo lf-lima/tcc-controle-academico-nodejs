@@ -1,5 +1,5 @@
 export interface IHttpRequest<TInput> {
-  body: TInput,
+  body: TInput
 }
 
 export class HttpRequest<TInput> implements IHttpRequest<TInput> {

@@ -16,6 +16,7 @@ export class ExpressOperationAdapter<IInput, TReturnUseCase> implements IBaseOpe
   adapt () {
     return async (req: Request, res: Response): Promise<Response<IHttpResponse<IBaseEntity | IHttpResponseError[]>>> => {
       const httpRequest = new HttpRequest({ body: { ...req.body, ...req.params } })
+      // talvez criar um input normalizer???
       const httpResponse = await this.operation.run(httpRequest)
 
       return res.status(httpResponse.statusCode).json(httpResponse)

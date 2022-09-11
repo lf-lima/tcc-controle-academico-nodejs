@@ -7,7 +7,7 @@ export class HttpResponseError implements IHttpResponseError {
   public property!: string
   public messages!: string[]
 
-  constructor (obj: Partial<HttpResponseError>) {
+  constructor (obj: HttpResponseError) {
     Object.assign(this, obj)
   }
 }
