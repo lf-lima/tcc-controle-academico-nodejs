@@ -4,7 +4,7 @@
   "description": "Controle acadêmico web feito em Node.js como trabalho de concluso do curso de Engenharia de Computação na UniPinhal.",
   "main": "index.js",
   "scripts": {
-    "dev:server": "tsnd --transpile-only --respawn --ignore-watch node_modules  ./src/4-framework/server/server.ts"
+    "dev:server": "ts-node-dev --transpile-only --respawn --ignore-watch node_modules -r tsconfig-paths/register ./src/4-framework/server/server.ts"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +24,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "prettier": "^2.0.5",
     "ts-node-dev": "^1.1.8",
+    "tsconfig-paths": "^4.1.0",
     "typescript": "^3.9.7"
   },
   "dependencies": {

@@ -20,14 +20,15 @@
     "plugins": [
         "@typescript-eslint"
     ],
-    "rules": {
-    },
+    "rules": {},
     "overrides": [
         {
-          "files": ["./dist/*"], //ignora todos os arquivos do dist
-          "rules": {
-            "require-jsdoc": "off"
-          }
+            "files": [
+                "./dist/*"
+            ], //ignora todos os arquivos do dist
+            "rules": {
+                "require-jsdoc": "off"
+            }
         }
-      ]
+    ]
 }
