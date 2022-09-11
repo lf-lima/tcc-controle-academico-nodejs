@@ -18,8 +18,8 @@ export class MainExpressRouter implements IMainExpressRouter {
     console.log('\n= Routing =')
     console.log('----------')
     for (const currentRouter of this.routers) {
-      for (const { method, routePath, operationAdapter, input } of currentRouter.routes) {
-        currentRouter.router[method](routePath, operationAdapter.adapt(input))
+      for (const { method, routePath, operationAdapter, input, inputNormalizer } of currentRouter.routes) {
+        currentRouter.router[method](routePath, operationAdapter.adapt({ Input: input, inputNormalizer }))
         console.log(`${method.toUpperCase()} ${currentRouter.baseRoute}${routePath}`)
       }
       console.log('----------')

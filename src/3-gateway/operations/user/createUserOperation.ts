@@ -8,7 +8,6 @@ import {
 import { InputCreateUser } from '#gateway/serializers/user/inputCreateUser'
 import { ICreateUserUseCase } from '#business/useCases/user/createUserUseCase'
 import { IFindUserByEmailUseCase } from '#business/useCases/user/findUserByEmailUseCase'
-import { IHttpResponseError } from '#gateway/modules/errors/http/httpResponseErrors'
 import { IUser } from '#domain/entities/iUser'
 import { IBaseOperation } from '#gateway/operations/base/iBaseOperation'
 
@@ -21,7 +20,7 @@ export class CreateUserOperation implements IBaseOperation<InputCreateUser, IUse
     this.findUserByEmailUseCase = findUserByEmailUseCase
   }
 
-  async run (input: InputCreateUser): Promise<IHttpResponse<IUser | IHttpResponseError[]>> {
+  async run (input: InputCreateUser): Promise<IHttpResponse<IUser>> {
     try {
       const createUserDTO = new CreateUserDTO(input)
 

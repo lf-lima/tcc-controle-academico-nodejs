@@ -3,7 +3,7 @@ import { IHttpResponseError } from '#gateway/modules/errors/http/httpResponseErr
 export interface IHttpResponse<TBody> {
   statusCode: number,
   message: string,
-  body: TBody,
+  body: TBody | IHttpResponseError[],
   hasError: boolean
 }
 
@@ -12,7 +12,7 @@ class HttpResponse<TBody> implements IHttpResponse<TBody> {
 
   public message!: string
 
-  public body!: TBody
+  public body!: TBody | IHttpResponseError[]
 
   public hasError = false
 

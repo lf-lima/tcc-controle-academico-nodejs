@@ -1,6 +1,5 @@
 import express, { Router } from 'express'
 import cors from 'cors'
-import bodyParser from 'body-parser'
 import { IBaseServer } from '#framework/server/base/iBaseServer'
 import { port } from '#framework/const/port'
 import { IMainExpressRouter, MainExpressRouter } from '#framework/routers/express/mainExpressRouter'

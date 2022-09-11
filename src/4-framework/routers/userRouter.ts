@@ -4,7 +4,7 @@ import { FindAllUsersUseCase } from '#business/useCases/user/findAllUsersUseCase
 import { FindUserByEmailUseCase } from '#business/useCases/user/findUserByEmailUseCase'
 import { FindUserByIdUseCase } from '#business/useCases/user/findUserByIdUseCase'
 import { UpdateUserUseCase } from '#business/useCases/user/updateUserUseCase'
-import { ExpressOperationAdapter } from '#gateway/adapters/operation/express/expressOperationAdapter'
+import { ExpressOperationAdapter } from '#framework/adapters/operation/expressOperationAdapter'
 import { CreateUserOperation } from '#gateway/operations/user/createUserOperation'
 import { DeleteUserOperation } from '#gateway/operations/user/deleteUserOperation'
 import { FindAllUsersOperation } from '#gateway/operations/user/findAllUsersOperation'
@@ -32,6 +32,11 @@ export class UserRouter extends ExpressRouter {
         method: 'get',
         routePath: '/:userId',
         input: InputFindUserById,
+        inputNormalizer: (httpRequest) => {
+          return new InputFindUserById({
+            userId: Number(httpRequest.body.userId)
+          })
+        },
         operationAdapter: new ExpressOperationAdapter(
           new FindUserByIdOperation(
             new FindUserByIdUseCase(new UserRepository())
@@ -53,6 +58,12 @@ export class UserRouter extends ExpressRouter {
         method: 'put',
         routePath: '/:userId',
         input: InputUpdateUser,
+        inputNormalizer: (httpRequest) => {
+          return new InputUpdateUser({
+            ...httpRequest.body,
+            userId: Number(httpRequest.body.userId)
+          })
+        },
         operationAdapter: new ExpressOperationAdapter(
           new UpdateUserOperation(
             new UpdateUserUseCase(new UserRepository()),
@@ -65,6 +76,11 @@ export class UserRouter extends ExpressRouter {
         method: 'delete',
         routePath: '/:userId',
         input: InputUpdateUser,
+        inputNormalizer: (httpRequest) => {
+          return new InputUpdateUser({
+            userId: Number(httpRequest.body.userId)
+          })
+        },
         operationAdapter: new ExpressOperationAdapter(
           new DeleteUserOperation(
             new DeleteUserUseCase(new UserRepository()),

@@ -3,7 +3,6 @@ import { FindUserByEmailDTO, FindUserByIdDTO, UpdateUserDTO } from '#business/dt
 import { IFindUserByEmailUseCase } from '#business/useCases/user/findUserByEmailUseCase'
 import { IFindUserByIdUseCase } from '#business/useCases/user/findUserByIdUseCase'
 import { IUpdateUserUseCase } from '#business/useCases/user/updateUserUseCase'
-import { IHttpResponseError } from '#gateway/modules/errors/http/httpResponseErrors'
 import { HttpBadRequestResponse, HttpInternalErrorResponse, HttpOkResponse, IHttpResponse } from '#gateway/modules/http/httpResponse'
 import { InputUpdateUser } from '#gateway/serializers/user/inputUpdateUser'
 import { IBaseOperation } from '#gateway/operations/base/iBaseOperation'
@@ -25,7 +24,7 @@ export class UpdateUserOperation implements IUpdateUserOperation {
     this.findUserByIdUseCase = findUserByIdUseCase
   }
 
-  async run (input: InputUpdateUser): Promise<IHttpResponse<IUser | IHttpResponseError[]>> {
+  async run (input: InputUpdateUser): Promise<IHttpResponse<IUser>> {
     try {
       const updateUserDTO = new UpdateUserDTO(input)
       const findUserByIdDTO = new FindUserByIdDTO({ userId: updateUserDTO.userId })

@@ -1,5 +1,5 @@
 import { ExpressRouter } from '#framework/routers/express/expressRouter'
-import { ExpressOperationAdapter } from '#gateway/adapters/operation/express/expressOperationAdapter'
+import { ExpressOperationAdapter } from '#framework/adapters/operation/expressOperationAdapter'
 import { DefaultOperation } from '#gateway/operations/default/defaultOperation'
 
 export class DefaultRouter extends ExpressRouter {

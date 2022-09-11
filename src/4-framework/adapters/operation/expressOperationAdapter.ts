@@ -1,11 +1,10 @@
 import { Request, Response } from 'express'
-import { IHttpResponseError } from '#gateway/modules/errors/http/httpResponseErrors'
-import { IBaseOperationAdapter } from '#gateway/adapters/operation/baseOperationAdapter'
+import { BaseInputAdapt, IBaseOperationAdapter } from '#framework/adapters/operation/baseOperationAdapter'
 import { IBaseEntity } from '#domain/entities/iBaseEntity'
 import { HttpRequest } from '#gateway/modules/http/httpRequest'
 import { HttpBadRequestResponse, IHttpResponse } from '#gateway/modules/http/httpResponse'
 import { IBaseOperation } from '#gateway/operations/base/iBaseOperation'
-import { IInputBaseValidator, InputBaseValidator } from '#gateway/serializers/base/inputBaseValidator'
+import { InputBaseValidator } from '#gateway/serializers/base/inputBaseValidator'
 
 export class ExpressOperationAdapter implements IBaseOperationAdapter {
   private operation!: IBaseOperation<any, any>
@@ -14,15 +13,21 @@ export class ExpressOperationAdapter implements IBaseOperationAdapter {
     this.operation = operation
   }
 
-  adapt (Input: IInputBaseValidator = InputBaseValidator) {
-    return async (req: Request, res: Response): Promise<Response<IHttpResponse<IBaseEntity | IHttpResponseError[]>>> => {
+  adapt ({ Input = InputBaseValidator, inputNormalizer }: BaseInputAdapt) {
+    return async (req: Request, res: Response): Promise<Response<IHttpResponse<IBaseEntity>>> => {
       const httpRequest = new HttpRequest({ body: { ...req.body, ...req.params } })
 
-      let httpResponse: IHttpResponse<any | IHttpResponseError[]>
+      let input: InputBaseValidator
 
-      const input = new Input(httpRequest.body)
+      if (inputNormalizer) {
+        input = inputNormalizer(httpRequest)
+      } else {
+        input = new Input(httpRequest.body)
+      }
 
       const errors = await input.validate()
+
+      let httpResponse: IHttpResponse<any>
 
       if (input.hasError) {
         httpResponse = new HttpBadRequestResponse(errors)

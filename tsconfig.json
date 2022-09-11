@@ -21,7 +21,7 @@
     "moduleResolution": "node",
     "noImplicitAny": false,
     "noUnusedLocals": false,
-    "noUnusedParameters": false,
+    "noUnusedParameters": true,
     "resolveJsonModule": true,
     "removeComments": true,
     "sourceMap": true,

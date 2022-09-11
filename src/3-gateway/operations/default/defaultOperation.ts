@@ -1,9 +1,8 @@
 import { HttpInternalErrorResponse, HttpOkResponse, IHttpResponse } from '#gateway/modules/http/httpResponse'
-import { IHttpResponseError } from '#gateway/modules/errors/http/httpResponseErrors'
 import { IBaseOperation } from '#gateway/operations/base/iBaseOperation'
 
 export class DefaultOperation implements IBaseOperation<{ test: string }, { success: boolean }> {
-  async run (): Promise<IHttpResponse<{ success: boolean } | IHttpResponseError[]>> {
+  async run (): Promise<IHttpResponse<{ success: boolean }>> {
     try {
       return new HttpOkResponse({
         success: true

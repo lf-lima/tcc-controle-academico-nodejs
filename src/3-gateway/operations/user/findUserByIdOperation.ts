@@ -1,7 +1,6 @@
 import { IUser } from '#domain/entities/iUser'
 import { FindUserByIdDTO } from '#business/dto/user'
 import { IFindUserByIdUseCase } from '#business/useCases/user/findUserByIdUseCase'
-import { IHttpResponseError } from '#gateway/modules/errors/http/httpResponseErrors'
 import { HttpBadRequestResponse, HttpInternalErrorResponse, HttpOkResponse, IHttpResponse } from '#gateway/modules/http/httpResponse'
 import { InputFindUserById } from '#gateway/serializers/user/inputFindUserById'
 import { IBaseOperation } from '#gateway/operations/base/iBaseOperation'
@@ -15,7 +14,7 @@ export class FindUserByIdOperation implements IFindUserByIdOperation {
     this.findUserByIdUseCase = findUserByIdUseCase
   }
 
-  async run (input: InputFindUserById): Promise<IHttpResponse<IUser | IHttpResponseError[]>> {
+  async run (input: InputFindUserById): Promise<IHttpResponse<IUser>> {
     try {
       const dto = new FindUserByIdDTO(input)
 
