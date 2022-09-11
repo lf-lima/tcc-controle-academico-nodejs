@@ -3,17 +3,32 @@ import path from 'path'
 import { config } from 'dotenv'
 config()
 
-const clearDBFullUrl = process.env.CLEARDB_DATABASE_URL
+let database: string
+let host: string
+let username: string
+let password: string
 
-const [, urlWithDataBase] = clearDBFullUrl?.split('@') as string[]
+if (!process.env.CLEARDB_DATABASE_URL) {
+  database = process.env.DB_LOCAL as string
+  host = process.env.DB_HOST_LOCAL as string
+  username = process.env.DB_USER_LOCAL as string
+  password = process.env.DB_PASS_LOCAL as string
+} else {
+  const clearDBFullUrl = process.env.CLEARDB_DATABASE_URL
 
-const [DB_HOST] = urlWithDataBase.split('/')
+  const [, urlWithDataBase] = clearDBFullUrl?.split('@') as string[]
+
+  database = process.env.DB as string
+  host = urlWithDataBase.split('/')[0]
+  username = process.env.DB_USER as string
+  password = process.env.DB_PASS as string
+}
 
 export const baseSequelizeOptions = {
-  database: process.env.DB,
-  host: DB_HOST,
-  username: process.env.DB_USER,
-  password: process.env.DB_PASS,
+  database,
+  host,
+  username,
+  password,
   storage: ':memory:',
   models: [path.resolve(__dirname, '..', 'models', 'mysql', '*.model.ts')]
 } as SequelizeOptions
