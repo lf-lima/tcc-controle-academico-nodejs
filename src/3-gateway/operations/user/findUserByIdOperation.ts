@@ -42,8 +42,8 @@ export class FindUserByIdOperation implements IFindUserByIdOperation {
       }
 
       return new HttpSuccessResponse(user)
-    } catch (error: any) {
-      return new HttpInternalErrorResponse(error.message)
+    } catch (error) {
+      return new HttpInternalErrorResponse(error)
     }
   }
 }

@@ -1,4 +1,4 @@
-import { IBaseOperationAdapter } from '#gateway/operations/adapter/baseAdapter'
+import { IBaseOperationAdapter } from '#gateway/adapters/operation/baseOperationAdapter'
 
 export interface IRoute {
   method: 'get' | 'post' | 'delete' | 'put'

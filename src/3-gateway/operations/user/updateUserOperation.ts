@@ -68,8 +68,8 @@ export class UpdateUserOperation implements IUpdateUserOperation {
       }
 
       return new HttpSuccessResponse(await this.updateUserUseCase.run(updateUserDTO))
-    } catch (error: any) {
-      return new HttpInternalErrorResponse(error.message)
+    } catch (error) {
+      return new HttpInternalErrorResponse(error)
     }
   }
 }

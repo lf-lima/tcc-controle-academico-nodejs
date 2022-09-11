@@ -17,8 +17,8 @@ export class FindAllUsersOperation implements IFindAllUsersOperation {
   async run (httpRequest: IHttpRequest<null>): Promise<IHttpResponse<IUser[] | IHttpResponseError[]>> {
     try {
       return new HttpSuccessResponse(await this.findAllUsersUseCase.run())
-    } catch (error: any) {
-      return new HttpInternalErrorResponse(error.message)
+    } catch (error) {
+      return new HttpInternalErrorResponse(error)
     }
   }
 }

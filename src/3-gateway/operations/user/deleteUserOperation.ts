@@ -46,8 +46,8 @@ export class DeleteUserOperation implements IDeleteUserOperation {
       await this.deleteUserUseCase.run(dto)
 
       return new HttpSuccessResponse('User Deleted')
-    } catch (error: any) {
-      return new HttpInternalErrorResponse(error.message)
+    } catch (error) {
+      return new HttpInternalErrorResponse(error)
     }
   }
 }
