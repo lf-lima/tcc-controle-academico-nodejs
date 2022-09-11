@@ -1,2 +1,1 @@
-npm install
-npm run start:server
+worker: npm run start
