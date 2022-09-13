@@ -1,4 +1,4 @@
-import { BelongsTo, BelongsToMany, Column, ForeignKey, HasMany, Table } from 'sequelize-typescript'
+import { BelongsTo, BelongsToMany, Column, ForeignKey, Table } from 'sequelize-typescript'
 import { BaseModel } from '#framework/models/mysql/baseModel'
 import Institution from '#framework/models/mysql/institution.model'
 import { ISubject } from '#domain/entities/iSubject'
