@@ -1,6 +1,6 @@
 import { IBaseEntity } from '#domain/entities/iBaseEntity'
 
-export interface IUser extends IBaseEntity {
-  password: string
+export interface IProfilePermission extends IBaseEntity {
   profileId: number
+  permissionId: number
 }
