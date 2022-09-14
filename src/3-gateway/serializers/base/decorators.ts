@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
 import { registerDecorator, ValidationOptions, ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments } from 'class-validator'
 
 @ValidatorConstraint({ async: true })

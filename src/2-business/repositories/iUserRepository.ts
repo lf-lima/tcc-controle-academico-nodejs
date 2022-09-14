@@ -5,5 +5,5 @@ export interface IUserRepository {
   update(userId: number, data: { email?: string, password?: string}): Promise<IUser>
   delete(userId: number): Promise<void>
   findAll(): Promise<IUser[]>
-  findById(userId: number): Promise<IUser>
+  findById(userId: number): Promise<IUser | undefined>
 }

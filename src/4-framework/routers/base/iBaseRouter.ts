@@ -1,4 +1,3 @@
-import { IBaseOperationAdapter } from '#framework/adapters/operation/baseOperationAdapter'
 import { IHttpRequest } from '#gateway/modules/http/httpRequest'
 import { IBaseOperation } from '#gateway/operations/base/iBaseOperation'
 import { IInputBaseValidator, InputBaseValidator } from '#gateway/serializers/base/inputBaseValidator'
@@ -12,7 +11,7 @@ export interface IRoute {
   input?: IInputBaseValidator
   inputNormalizer?: InputNormalizer
   operation: IBaseOperation
-  permissions: string[]
+  permissions?: string[]
 }
 
 export interface IBaseRouter<TRouter> {

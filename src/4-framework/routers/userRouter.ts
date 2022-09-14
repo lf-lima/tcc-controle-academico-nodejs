@@ -14,10 +14,7 @@ export class UserRouter extends ExpressRouter {
         input: InputCreateUser,
         operation: new CreateUserOperation(
           new CreateUserUseCase(new UserRepository())
-        ),
-        permissions: [
-          'createUser'
-        ]
+        )
       }
     ])
   }
