@@ -10,9 +10,9 @@ export async function checkPermissionsMiddleware (necessaryPermissions: string[]
           const payloadPermission = permissionObj.name
 
           if (necessaryPermission.search('::') !== -1) {
-            const restrictedTypeFilter =
+            const necessaryTypeFilter =
               necessaryPermission.substring(necessaryPermission.search('::') + 2, necessaryPermission.length)
-            const restrictedPermissionName =
+            const necessaryPermissionName =
               necessaryPermission.substring(0, necessaryPermission.search('::'))
 
             const payloadTypeFilter =
@@ -21,15 +21,15 @@ export async function checkPermissionsMiddleware (necessaryPermissions: string[]
               payloadPermission.substring(0, payloadPermission.search('::'))
 
             if (
-              restrictedPermissionName === payloadPermissionName &&
-              restrictedTypeFilter === payloadTypeFilter
+              necessaryPermissionName === payloadPermissionName &&
+              necessaryTypeFilter === payloadTypeFilter
             ) {
               return permissionObj
             }
 
             if (
-              restrictedPermissionName === payloadPermissionName &&
-              restrictedTypeFilter === 'mine' &&
+              necessaryPermissionName === payloadPermissionName &&
+              necessaryTypeFilter === 'mine' &&
               payloadTypeFilter === 'all'
             ) {
               return permissionObj
