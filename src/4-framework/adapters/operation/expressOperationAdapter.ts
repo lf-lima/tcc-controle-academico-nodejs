@@ -7,9 +7,9 @@ import { IBaseOperation } from '#gateway/operations/base/iBaseOperation'
 import { InputBaseValidator } from '#gateway/serializers/base/inputBaseValidator'
 
 export class ExpressOperationAdapter implements IBaseOperationAdapter {
-  private operation!: IBaseOperation<any, any>
+  private operation!: IBaseOperation
 
-  constructor (operation: IBaseOperation<any, any>) {
+  constructor (operation: IBaseOperation) {
     this.operation = operation
   }
 
