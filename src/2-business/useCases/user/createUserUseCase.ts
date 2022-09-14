@@ -1,9 +1,8 @@
 import { IUser } from '#domain/entities/iUser'
-import { ICreateUserDTO } from '#business/dto/user'
 import { IUserRepository } from '#business/repositories/iUserRepository'
 
 export interface ICreateUserUseCase {
-  run (dto: ICreateUserDTO): Promise<IUser>
+  run (dto: Partial<IUser>): Promise<IUser>
 }
 
 export class CreateUserUseCase implements ICreateUserUseCase {
@@ -13,7 +12,7 @@ export class CreateUserUseCase implements ICreateUserUseCase {
     this.repository = repo
   }
 
-  async run (dto: ICreateUserDTO): Promise<IUser> {
-    return await this.repository.create(dto)
+  async run (input: Partial<IUser>): Promise<IUser> {
+    return await this.repository.create(input)
   }
 }

@@ -5,12 +5,12 @@ import { IUser } from '#domain/entities/iUser'
 export class UserRepository implements IUserRepository {
   private readonly userRepository: typeof User = User
 
-  async create (data: { email: string, password: string }): Promise<IUser> {
-    return await this.userRepository.create(data)
+  async create (data: IUser): Promise<IUser> {
+    return await this.userRepository.create(data as User)
   }
 
   async update (userId: number, data: { email?: string, password?: string }): Promise<IUser> {
-    const [, [user]] = await this.userRepository.update(data, { where: { id: userId } })
+    const [, [user]] = await this.userRepository.update(data, { where: { id: userId }, returning: true })
     return user
   }
 
@@ -24,9 +24,5 @@ export class UserRepository implements IUserRepository {
 
   async findById (userId: number): Promise<IUser> {
     return await this.userRepository.findByPk(userId) as IUser
-  }
-
-  async findByEmail (userEmail: string): Promise<IUser> {
-    return await this.userRepository.findOne({ where: { email: userEmail } }) as IUser
   }
 }

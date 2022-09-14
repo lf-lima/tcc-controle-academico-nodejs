@@ -4,10 +4,6 @@ import { InputBaseValidator } from '#gateway/serializers/base/inputBaseValidator
 
 export class InputCreateUser extends InputBaseValidator {
   @IsNotEmpty()
-  @IsEmail()
-  public email!: string
-
-  @IsNotEmpty()
   @IsString()
   @Length(6, 16)
   public password!: string
