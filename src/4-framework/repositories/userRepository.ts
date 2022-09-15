@@ -1,11 +1,12 @@
 import User from '#framework/models/mysql/user.model'
 import { IUserRepository } from '#business/repositories/iUserRepository'
 import { IUser } from '#domain/entities/iUser'
+import { CreateUserInputDto } from '#business/dto/user/createUserInputDto'
 
 export class UserRepository implements IUserRepository {
   private readonly userRepository: typeof User = User
 
-  async create (data: IUser): Promise<IUser> {
+  async create (data: CreateUserInputDto): Promise<IUser> {
     return await this.userRepository.create(data as User)
   }
 

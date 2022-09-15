@@ -1,7 +1,8 @@
+import { CreateUserInputDto } from '#business/dto/user/createUserInputDto'
 import { IUser } from '#domain/entities/iUser'
 
 export interface IUserRepository {
-  create(data: Partial<IUser>): Promise<IUser>
+  create(data: CreateUserInputDto): Promise<IUser>
   update(userId: number, data: { email?: string, password?: string}): Promise<IUser>
   delete(userId: number): Promise<void>
   findAll(): Promise<IUser[]>

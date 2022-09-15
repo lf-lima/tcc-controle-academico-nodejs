@@ -1,4 +1,4 @@
 import { DefaultRouter } from '#framework/routers/defaultRouter'
-import { UserRouter } from '#framework/routers/userRouter'
+import { InstitutionRouter } from '#framework/routers/institutionRouter'
 
-export const routers = [new DefaultRouter(), new UserRouter()]
+export const routers = [new DefaultRouter(), new InstitutionRouter()]

@@ -6,6 +6,12 @@ import User from '#framework/models/mysql/user.model'
 @Table
 export default class Institution extends BaseModel<Institution> implements IInstitution {
   @Column
+  name!: string
+
+  @Column
+  about!: string
+
+  @Column
   email!: string
 
   @ForeignKey(() => User)
