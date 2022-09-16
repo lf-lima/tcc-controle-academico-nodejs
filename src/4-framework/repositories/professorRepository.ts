@@ -9,4 +9,8 @@ export class ProfessorRepository implements IProfessorRepository {
   async create (data: PartialBy<IProfessor, 'id'>): Promise<IProfessor> {
     return await this.repo.create(data as Professor)
   }
+
+  async findByUserId (userId: number): Promise<IProfessor | undefined> {
+    return await this.repo.findOne({ where: { userId }}) as IProfessor | undefined
+  }
 }

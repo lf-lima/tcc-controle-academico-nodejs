@@ -9,4 +9,8 @@ export class InstitutionRepository implements IInstitutionRepository {
   async create (data: PartialBy<IInstitution, 'id'>): Promise<IInstitution> {
     return await this.repo.create(data as Institution)
   }
+
+  async findByUserId (userId: number): Promise<IInstitution | undefined> {
+    return await this.repo.findOne({ where: { userId }}) as IInstitution | undefined
+  }
 }

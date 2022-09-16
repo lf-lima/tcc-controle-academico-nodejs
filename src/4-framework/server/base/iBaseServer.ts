@@ -6,4 +6,5 @@ export interface IBaseServer<TRouter> {
   connection(): void
   routes(): void
   middlewares(): void
+  database (): Promise<void>
 }

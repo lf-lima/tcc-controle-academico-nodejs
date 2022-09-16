@@ -3,4 +3,5 @@ import { IStudent } from '#domain/entities/iStudent'
 
 export interface IStudentRepository {
   create(data: PartialBy<IStudent, 'id'>): Promise<IStudent>
+  findByUserId(userId: number): Promise<IStudent | undefined>
 }
