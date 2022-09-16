@@ -31,5 +31,5 @@ export default class Subject extends BaseModel<Subject> implements ISubject {
   students?: Student[]
 
   @BelongsTo(() => Institution)
-  institution?: Institution[]
+  institution?: Institution
 }

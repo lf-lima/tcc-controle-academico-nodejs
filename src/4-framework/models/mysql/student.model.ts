@@ -26,8 +26,8 @@ export default class Student extends BaseModel<Student> implements IStudent {
   subjects?: Subject[]
 
   @BelongsTo(() => User)
-  user?: User[]
+  user?: User
 
   @BelongsTo(() => Institution)
-  institution?: Institution[]
+  institution?: Institution
 }

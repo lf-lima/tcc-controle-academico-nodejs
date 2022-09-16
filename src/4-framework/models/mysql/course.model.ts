@@ -17,7 +17,7 @@ export default class Course extends BaseModel<Course> implements ICourse {
   courseDescription!: string
 
   @BelongsTo(() => Institution)
-  institution?: Institution[]
+  institution?: Institution
 
   @HasMany(() => Subject)
   subject?: Subject[]

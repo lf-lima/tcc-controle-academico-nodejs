@@ -1,4 +1,5 @@
 import { IUser } from '#domain/entities/iUser'
+import { TokenPayload } from '#domain/models/token'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
@@ -17,12 +18,7 @@ export class User implements IUser {
     return await bcrypt.compare(password, passwordDb)
   }
 
-  public async genToken (payload: {
-    userId: number,
-    userEmail: string,
-    companyId: number,
-    permissions: { id: number, name:string, description: string}[]
-  }): Promise<string> {
+  public async genToken (payload: TokenPayload): Promise<string> {
     const token = jwt.sign(payload, process.env.ACCESS_SECRET as string, { expiresIn: 604800 })
     return token
   }

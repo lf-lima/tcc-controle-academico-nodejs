@@ -22,11 +22,11 @@ export default class Professor extends BaseModel<Professor> implements IProfesso
   documentNumber!: string
 
   @BelongsTo(() => User)
-  user?: User[]
+  user?: User
 
   @BelongsTo(() => Institution)
-  institution?: Institution[]
+  institution?: Institution
 
   @HasMany(() => Subject)
-  subject?: Subject[]
+  subject?: Subject
 }
