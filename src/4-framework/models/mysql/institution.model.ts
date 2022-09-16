@@ -11,9 +11,6 @@ export default class Institution extends BaseModel<Institution> implements IInst
   @Column
   about!: string
 
-  @Column
-  documentNumber!: string
-
   @ForeignKey(() => User)
   @Column
   userId!: number

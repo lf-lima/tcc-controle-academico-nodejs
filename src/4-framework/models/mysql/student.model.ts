@@ -19,9 +19,6 @@ export default class Student extends BaseModel<Student> implements IStudent {
   @Column
   name!: string
 
-  @Column
-  documentNumber!: string
-
   @BelongsToMany(() => Subject, () => SubjectStudent)
   subjects?: Subject[]
 

@@ -8,9 +8,6 @@ export default class Admin extends BaseModel<Admin> implements IAdmin {
   @Column
   name!: string
 
-  @Column
-  documentNumber!: string
-
   @ForeignKey(() => User)
   @Column
   userId!: number
