@@ -4,7 +4,7 @@ import { IInstitution } from '#domain/entities/iInstitution'
 import { PartialBy } from '#business/utils/partialBy'
 
 export class InstitutionRepository implements IInstitutionRepository {
-  private readonly repo: typeof Institution = Institution
+  private readonly repo = Institution
 
   async create (data: PartialBy<IInstitution, 'id'>): Promise<IInstitution> {
     return await this.repo.create(data as Institution)

@@ -15,7 +15,10 @@ export class StudentRouter extends ExpressRouter {
         input: InputCreateStudent,
         operation: new CreateStudentOperation(
           new CreateStudentUseCase(new StudentRepository(), new UserRepository())
-        )
+        ),
+        permissions: [
+          'createStudent'
+        ]
       }
     ])
   }

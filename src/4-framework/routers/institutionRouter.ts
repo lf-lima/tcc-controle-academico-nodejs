@@ -15,7 +15,10 @@ export class InstitutionRouter extends ExpressRouter {
         input: InputCreateInstitution,
         operation: new CreateInstitutionOperation(
           new CreateInstitutionUseCase(new InstitutionRepository(), new UserRepository())
-        )
+        ),
+        permissions: [
+          'createInstitution'
+        ]
       }
     ])
   }

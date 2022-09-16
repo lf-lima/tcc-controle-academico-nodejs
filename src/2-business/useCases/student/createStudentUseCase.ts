@@ -16,7 +16,7 @@ export class CreateStudentUseCase implements IBaseUseCase<CreateStudentInputDto,
   async run (input: CreateStudentInputDto): Promise<IStudent> {
     console.log('start create student use case: ', input)
 
-    const { profileId, password, name, institutionId, registrationNumber, documentNumber } = input
+    const { profileId, password, name, institutionId, documentNumber } = input
 
     const user = await this.userRepository.create({ profileId, password })
 
@@ -25,7 +25,6 @@ export class CreateStudentUseCase implements IBaseUseCase<CreateStudentInputDto,
     const student = await this.studentRepository.create({
       userId: user.id,
       password,
-      registrationNumber,
       documentNumber,
       name,
       institutionId,

@@ -15,7 +15,10 @@ export class ProfessorRouter extends ExpressRouter {
         input: InputCreateProfessor,
         operation: new CreateProfessorOperation(
           new CreateProfessorUseCase(new ProfessorRepository(), new UserRepository())
-        )
+        ),
+        permissions: [
+          'createProfessor'
+        ]
       }
     ])
   }
