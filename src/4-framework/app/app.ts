@@ -1,10 +1,10 @@
 import { IApp } from '#framework/app/iApp'
 import { IBaseServer } from '#framework/server/base/iBaseServer'
 
-export class App<TRouter> implements IApp<TRouter> {
-  public server: IBaseServer<TRouter>
+export class App implements IApp {
+  public server: IBaseServer
 
-  constructor (server: IBaseServer<TRouter>) {
+  constructor (server: IBaseServer) {
     this.server = server
   }
 }

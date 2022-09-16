@@ -1,4 +1,3 @@
-import { IUser } from '#domain/entities/iUser'
 import { TokenPayload } from '#domain/models/token'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'

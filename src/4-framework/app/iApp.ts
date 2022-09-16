@@ -1,5 +1,5 @@
 import { IBaseServer } from '#framework/server/base/iBaseServer'
 
-export interface IApp<TRouter> {
-  server: IBaseServer<TRouter>
+export interface IApp {
+  server: IBaseServer
 }
