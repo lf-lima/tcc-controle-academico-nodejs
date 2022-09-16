@@ -16,7 +16,7 @@ export class CreateProfessorUseCase implements IBaseUseCase<CreateProfessorInput
   async run (input: CreateProfessorInputDto): Promise<IProfessor> {
     console.log('start create professor use case: ', input)
 
-    const { profileId, password, name, institutionId, registrationNumber, documentNumber } = input
+    const { profileId, password, name, institutionId, documentNumber } = input
 
     const user = await this.userRepository.create({ profileId, password })
 
@@ -25,7 +25,6 @@ export class CreateProfessorUseCase implements IBaseUseCase<CreateProfessorInput
     const professor = await this.professorRepository.create({
       userId: user.id,
       password,
-      registrationNumber,
       documentNumber,
       name,
       institutionId,

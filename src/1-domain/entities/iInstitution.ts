@@ -4,5 +4,5 @@ export interface IInstitution extends IBaseEntity {
   name: string
   about: string
   userId: number
-  email: string
+  documentNumber: string
 }

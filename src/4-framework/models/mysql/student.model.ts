@@ -17,9 +17,6 @@ export default class Student extends BaseModel<Student> implements IStudent {
   userId!: number
 
   @Column
-  registrationNumber!: number
-
-  @Column
   name!: string
 
   @Column

@@ -16,7 +16,7 @@ export class CreateInstitutionUseCase implements IBaseUseCase<CreateInstitutionI
   async run (input: CreateInstitutionInputDto): Promise<IInstitution> {
     console.log('start create institution use case: ', input)
 
-    const { profileId, password, email, name, about } = input
+    const { profileId, password, documentNumber, name, about } = input
 
     const user = await this.userRepository.create({ profileId, password })
 
@@ -25,7 +25,7 @@ export class CreateInstitutionUseCase implements IBaseUseCase<CreateInstitutionI
     const institution = await this.institutionRepository.create({
       userId: user.id,
       password,
-      email,
+      documentNumber,
       name,
       about,
       profileId

@@ -9,5 +9,4 @@ export class InstitutionRepository implements IInstitutionRepository {
   async create (data: PartialBy<IInstitution, 'id'>): Promise<IInstitution> {
     return await this.repo.create(data as Institution)
   }
-
 }

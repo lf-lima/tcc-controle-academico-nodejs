@@ -12,7 +12,7 @@ export default class Institution extends BaseModel<Institution> implements IInst
   about!: string
 
   @Column
-  email!: string
+  documentNumber!: string
 
   @ForeignKey(() => User)
   @Column

@@ -16,9 +16,6 @@ export default class Professor extends BaseModel<Professor> implements IProfesso
   userId!: number
 
   @Column
-  registrationNumber!: number
-
-  @Column
   name!: string
 
   @Column
