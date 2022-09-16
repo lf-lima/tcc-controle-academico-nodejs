@@ -1,4 +1,4 @@
-import { IBaseUseCase } from '#business/useCases/base/ibaseUseCase'
+import { IBaseUseCase } from '#business/useCases/base/iBaseUseCase'
 import { CreateInstitutionInputDto } from '#business/dto/institution/createInstitutionInputDto'
 import { IInstitution } from '#domain/entities/iInstitution'
 import { IInstitutionRepository } from '#business/repositories/iInstitutionRepository'
