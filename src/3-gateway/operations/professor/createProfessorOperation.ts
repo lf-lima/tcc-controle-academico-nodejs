@@ -3,27 +3,27 @@ import {
   HttpOkResponse,
   IHttpResponse
 } from '#gateway/modules/http/httpResponse'
-import { CreateInstitutionUseCase } from '#business/useCases/institution/createInstitutionUseCase'
 import { IBaseOperation } from '#gateway/operations/base/iBaseOperation'
-import { IInstitution } from '#domain/entities/iInstitution'
-import { InputCreateInstitution } from '#gateway/serializers/institution/inputCreateInstitution'
+import { IProfessor } from '#domain/entities/iProfessor'
+import { CreateProfessorUseCase } from '#business/useCases/professor/createProfessorUseCase'
+import { InputCreateProfessor } from '#gateway/serializers/professor/inputCreateProfessor'
 
-export class CreateProfessorOperation implements IBaseOperation<InputCreateInstitution, IInstitution> {
-  private createInstitutionUseCase!: CreateInstitutionUseCase
+export class CreateProfessorOperation implements IBaseOperation<InputCreateProfessor, IProfessor> {
+  private createProfessorUseCase!: CreateProfessorUseCase
 
-  constructor (createUserUseCase: CreateInstitutionUseCase) {
-    this.createInstitutionUseCase = createUserUseCase
+  constructor (createProfessorUseCase: CreateProfessorUseCase) {
+    this.createProfessorUseCase = createProfessorUseCase
   }
 
-  async run (input: InputCreateInstitution): Promise<IHttpResponse<IInstitution>> {
+  async run (input: InputCreateProfessor): Promise<IHttpResponse<IProfessor>> {
     try {
-      console.log('start create institution operation, input: ', input)
+      console.log('start create professor operation, input: ', input)
 
-      const institution = await this.createInstitutionUseCase.run(input)
+      const professor = await this.createProfessorUseCase.run(input)
 
-      console.log('created institution: ', institution)
+      console.log('created professor: ', professor)
 
-      return new HttpOkResponse(institution)
+      return new HttpOkResponse(professor)
     } catch (error) {
       return new HttpInternalErrorResponse(error)
     }

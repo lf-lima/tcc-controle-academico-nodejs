@@ -5,5 +5,5 @@ export interface IStudent extends IBaseEntity {
   institutionId: number
   registrationNumber: number
   name: string
-  documentNumber: number
+  documentNumber: string
 }

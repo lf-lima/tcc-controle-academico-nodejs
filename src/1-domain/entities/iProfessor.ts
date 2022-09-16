@@ -5,5 +5,5 @@ export interface IProfessor extends IBaseEntity {
   institutionId: number
   registrationNumber: number
   name: string
-  documentNumber: number
+  documentNumber: string
 }

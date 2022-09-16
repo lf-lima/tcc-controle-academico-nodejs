@@ -11,8 +11,8 @@ import { InputCreateInstitution } from '#gateway/serializers/institution/inputCr
 export class CreateInstitutionOperation implements IBaseOperation<InputCreateInstitution, IInstitution> {
   private createInstitutionUseCase!: CreateInstitutionUseCase
 
-  constructor (createUserUseCase: CreateInstitutionUseCase) {
-    this.createInstitutionUseCase = createUserUseCase
+  constructor (createInstitutionUseCase: CreateInstitutionUseCase) {
+    this.createInstitutionUseCase = createInstitutionUseCase
   }
 
   async run (input: InputCreateInstitution): Promise<IHttpResponse<IInstitution>> {
