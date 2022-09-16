@@ -12,5 +12,5 @@ export default class Permission extends BaseModel<Permission> {
   description!: string
 
   @BelongsToMany(() => Profile, () => ProfilePermission)
-  profiles?: Profile[]
+  profiles!: Profile[]
 }

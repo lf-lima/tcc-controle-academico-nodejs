@@ -1,20 +1,18 @@
-import express, { Router } from 'express'
+import express from 'express'
 import cors from 'cors'
-import { IBaseServer } from '#framework/server/base/iBaseServer'
 import { port } from '#framework/const/port'
 import { IMainExpressRouter, MainExpressRouter } from '#framework/routers/express/mainExpressRouter'
 import { IDBConnection } from '#framework/database/base/iConnection'
+import { Seeder } from '#framework/migrations/seeder'
 
-export interface IExpressServer extends IBaseServer<Router> {
-  app: express.Application
-}
-
-export class ExpressServer<TDBConfig> implements IExpressServer {
-  public app: express.Application
-  public mainRouter: IMainExpressRouter
-  public dbConnection: IDBConnection<TDBConfig>
+export class ExpressServer<TDBConfig> {
+  private app: express.Application
+  private mainRouter: IMainExpressRouter
+  private dbConnection: IDBConnection<TDBConfig>
+  private seeder: Seeder
 
   constructor (dbConnection: IDBConnection<TDBConfig>) {
+    this.seeder = new Seeder()
     this.app = express()
     this.mainRouter = new MainExpressRouter()
     this.dbConnection = dbConnection
@@ -24,6 +22,7 @@ export class ExpressServer<TDBConfig> implements IExpressServer {
 
   async connection (): Promise<void> {
     await this.database()
+    await this.migrations()
 
     this.middlewares()
     this.routes()
@@ -47,5 +46,9 @@ export class ExpressServer<TDBConfig> implements IExpressServer {
 
   async database (): Promise<void> {
     await this.dbConnection.connect()
+  }
+
+  async migrations (): Promise<void> {
+    await this.seeder.run()
   }
 }

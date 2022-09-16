@@ -1,14 +1,12 @@
 import { Response, NextFunction } from 'express'
 
-export async function checkPermissionsMiddleware (necessaryPermissions: string[]) {
+export function checkPermissionsMiddleware (necessaryPermissions: string[]) {
   return async (req: any, res: Response, next: NextFunction) => {
     try {
-      const payloadPermissions = req.payload.permissions
+      const payloadPermissions = req.tokenPayload.permissions
 
       for (const necessaryPermission of necessaryPermissions) {
-        const match = payloadPermissions.find((permissionObj: { name: string }) => {
-          const payloadPermission = permissionObj.name
-
+        const match = payloadPermissions.find(permissionName => {
           if (necessaryPermission.search('::') !== -1) {
             const necessaryTypeFilter =
               necessaryPermission.substring(necessaryPermission.search('::') + 2, necessaryPermission.length)
@@ -16,15 +14,15 @@ export async function checkPermissionsMiddleware (necessaryPermissions: string[]
               necessaryPermission.substring(0, necessaryPermission.search('::'))
 
             const payloadTypeFilter =
-              payloadPermission.substring(payloadPermission.search('::') + 2, payloadPermission.length)
+              permissionName.substring(permissionName.search('::') + 2, permissionName.length)
             const payloadPermissionName =
-              payloadPermission.substring(0, payloadPermission.search('::'))
+              permissionName.substring(0, permissionName.search('::'))
 
             if (
               necessaryPermissionName === payloadPermissionName &&
               necessaryTypeFilter === payloadTypeFilter
             ) {
-              return permissionObj
+              return permissionName
             }
 
             if (
@@ -32,10 +30,10 @@ export async function checkPermissionsMiddleware (necessaryPermissions: string[]
               necessaryTypeFilter === 'mine' &&
               payloadTypeFilter === 'all'
             ) {
-              return permissionObj
+              return permissionName
             }
           } else {
-            return payloadPermission === necessaryPermission
+            return permissionName === necessaryPermission
           }
         })
 
@@ -46,6 +44,7 @@ export async function checkPermissionsMiddleware (necessaryPermissions: string[]
 
       return next()
     } catch (error) {
+      console.error(error)
       return res.status(500).json({ error: 'Server internal error' })
     }
   }

@@ -30,7 +30,7 @@ export class MainExpressRouter implements IMainExpressRouter {
           currentRouter.router[method](
             routePath,
             authenticationMiddleware,
-            checkPermissionsMiddleware,
+            checkPermissionsMiddleware(permissions),
             operationAdapter.adapt({ Input: input, inputNormalizer }))
         } else {
           currentRouter.router[method](routePath, operationAdapter.adapt({ Input: input, inputNormalizer }))

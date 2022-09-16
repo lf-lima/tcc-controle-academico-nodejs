@@ -14,7 +14,7 @@ export default class Profile extends BaseModel<Profile> {
   name!: string
 
   @BelongsToMany(() => Permission, () => ProfilePermission)
-  permissions?: Permission[]
+  permissions!: Permission[]
 
   @HasMany(() => User)
   users?: User[]

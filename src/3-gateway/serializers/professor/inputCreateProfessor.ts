@@ -8,20 +8,12 @@ export class InputCreateProfessor extends InputBaseValidator {
   institutionId!: number
 
   @IsNotEmpty()
-  @IsNumber()
-  registrationNumber!: number
-
-  @IsNotEmpty()
   @IsString()
   documentNumber!: string
 
   @IsNotEmpty()
   @IsString()
   name!: string
-
-  @IsNotEmpty()
-  @IsNumber()
-  userId!: number
 
   @IsNotEmpty()
   @IsNumber()

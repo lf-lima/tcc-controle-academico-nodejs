@@ -3,6 +3,7 @@ import { IUserRepository } from '#business/repositories/iUserRepository'
 import { IUser } from '#domain/entities/iUser'
 import { CreateUserInputDto } from '#business/dto/user/createUserInputDto'
 import Permission from '#framework/models/mysql/permission.model'
+import Profile from '#framework/models/mysql/profile.model'
 
 export class UserRepository implements IUserRepository {
   private readonly userRepository: typeof User = User
@@ -28,9 +29,9 @@ export class UserRepository implements IUserRepository {
     return await this.userRepository.findByPk(userId) as IUser
   }
 
-  async findByDocumentNumber (documentNumber: string): Promise<IUser & { permissions: Permission[] } | undefined> {
+  async findByDocumentNumber (documentNumber: string): Promise<IUser & { profile: { permissions: Permission[] } } | undefined> {
     return await this.userRepository.findOne({
-      include: [Permission],
+      include: [Profile],
       where: { documentNumber }
     }) as any
   }

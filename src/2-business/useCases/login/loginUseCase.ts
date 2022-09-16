@@ -42,7 +42,7 @@ export class LoginUseCase implements IBaseUseCase<LoginInputDto, LoginOutputDto>
       throw new Error('User not exists')
     }
 
-    console.log('found user')
+    console.log('found user', user)
 
     const isValidPassword = User.checkPassword(password, user.password)
 
@@ -58,9 +58,9 @@ export class LoginUseCase implements IBaseUseCase<LoginInputDto, LoginOutputDto>
     return { token }
   }
 
-  private async getPayloadToken (user: IUser & { permissions: Permission[] }) {
+  private async getPayloadToken (user: IUser & { profile: { permissions: Permission[] } }) {
     const userId = user.id
-    const permissions = user.permissions
+    const permissions: string[] = user.profile.permissions.map(permission => permission.name)
 
     let tokenPayload: TokenPayload
 
@@ -91,9 +91,14 @@ export class LoginUseCase implements IBaseUseCase<LoginInputDto, LoginOutputDto>
         userId,
         permissions
       }
-    } else {
+    } else if (institution) {
       tokenPayload = {
         institutionId: institution?.id as number,
+        userId,
+        permissions
+      }
+    } else {
+      tokenPayload = {
         userId,
         permissions
       }

@@ -8,5 +8,5 @@ export interface IUserRepository {
   delete(userId: number): Promise<void>
   findAll(): Promise<IUser[]>
   findById(userId: number): Promise<IUser | undefined>
-  findByDocumentNumber(documentNumber: string): Promise<IUser & { permissions: Permission[] } | undefined>
+  findByDocumentNumber(documentNumber: string): Promise<IUser & { profile: { permissions: Permission[] } } | undefined>
 }

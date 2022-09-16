@@ -17,10 +17,6 @@ export class InputCreateInstitution extends InputBaseValidator {
 
   @IsNotEmpty()
   @IsNumber()
-  userId!: number
-
-  @IsNotEmpty()
-  @IsNumber()
   profileId!: number
 
   @IsNotEmpty()
