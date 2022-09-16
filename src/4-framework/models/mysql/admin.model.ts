@@ -6,6 +6,9 @@ import User from '#framework/models/mysql/user.model'
 @Table
 export default class Admin extends BaseModel<Admin> implements IAdmin {
   @Column
+  name!: string
+
+  @Column
   documentNumber!: string
 
   @ForeignKey(() => User)

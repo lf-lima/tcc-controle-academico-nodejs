@@ -7,6 +7,9 @@ import bcrypt from 'bcrypt'
 @Table
 export default class User extends BaseModel<User> implements IUser {
   @Column
+  documentNumber!: string
+
+  @Column
   password!: string
 
   @ForeignKey(() => Profile)

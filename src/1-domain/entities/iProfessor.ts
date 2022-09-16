@@ -4,5 +4,4 @@ export interface IProfessor extends IBaseEntity {
   userId: number
   institutionId: number
   name: string
-  documentNumber: string
 }

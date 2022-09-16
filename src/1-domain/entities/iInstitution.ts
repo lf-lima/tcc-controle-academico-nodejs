@@ -4,5 +4,4 @@ export interface IInstitution extends IBaseEntity {
   name: string
   about: string
   userId: number
-  documentNumber: string
 }

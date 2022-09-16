@@ -18,17 +18,14 @@ export class CreateStudentUseCase implements IBaseUseCase<CreateStudentInputDto,
 
     const { profileId, password, name, institutionId, documentNumber } = input
 
-    const user = await this.userRepository.create({ profileId, password })
+    const user = await this.userRepository.create({ profileId, password, documentNumber })
 
     console.log('user created: ', user)
 
     const student = await this.studentRepository.create({
       userId: user.id,
-      password,
-      documentNumber,
       name,
-      institutionId,
-      profileId
+      institutionId
     })
 
     console.log('student created: ', student)

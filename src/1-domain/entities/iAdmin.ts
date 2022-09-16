@@ -1,6 +1,6 @@
 import { IBaseEntity } from '#domain/entities/iBaseEntity'
 
 export interface IAdmin extends IBaseEntity {
-  documentNumber: string
+  name: string
   userId: number
 }

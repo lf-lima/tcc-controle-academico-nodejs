@@ -18,17 +18,14 @@ export class CreateInstitutionUseCase implements IBaseUseCase<CreateInstitutionI
 
     const { profileId, password, documentNumber, name, about } = input
 
-    const user = await this.userRepository.create({ profileId, password })
+    const user = await this.userRepository.create({ profileId, password, documentNumber })
 
     console.log('user created: ', user)
 
     const institution = await this.institutionRepository.create({
       userId: user.id,
-      password,
-      documentNumber,
       name,
-      about,
-      profileId
+      about
     })
 
     console.log('institution created: ', institution)

@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken'
 
 export class User implements IUser {
   id!: number
+  documentNumber!: string
   password!: string
   profileId!: number
   createdAt?: Date

@@ -1,6 +1,6 @@
-import { CreateInstitutionInputDto } from '#business/dto/institution/createInstitutionInputDto'
+import { PartialBy } from '#business/utils/partialBy'
 import { IInstitution } from '#domain/entities/iInstitution'
 
 export interface IInstitutionRepository {
-  create(data: CreateInstitutionInputDto): Promise<IInstitution>
+  create(data: PartialBy<IInstitution, 'id'>): Promise<IInstitution>
 }
