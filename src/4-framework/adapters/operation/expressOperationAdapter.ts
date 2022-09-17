@@ -15,7 +15,17 @@ export class ExpressOperationAdapter implements IBaseOperationAdapter {
 
   adapt ({ Input = InputBaseValidator, inputNormalizer }: BaseInputAdapt) {
     return async (req: Request, res: Response): Promise<Response<IHttpResponse<IBaseEntity>>> => {
-      const httpRequest = new HttpRequest({ body: { ...req.body, ...req.params } })
+      const reqFile: { file?: any, files?: any } = {}
+
+      if (req.file) {
+        reqFile.file = req.file
+      }
+
+      if (req.files) {
+        reqFile.files = req.files
+      }
+
+      const httpRequest = new HttpRequest({ body: { ...req.body, ...req.params, ...reqFile } })
 
       let input: InputBaseValidator
 

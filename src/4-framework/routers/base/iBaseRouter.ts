@@ -12,6 +12,9 @@ export interface IRoute {
   inputNormalizer?: InputNormalizer
   operation: IBaseOperation
   permissions?: string[]
+  options?: {
+    uploadFileMiddleware?: boolean
+  }
 }
 
 export interface IBaseRouter<TRouter> {

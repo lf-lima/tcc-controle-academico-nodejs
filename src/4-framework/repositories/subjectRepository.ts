@@ -9,4 +9,8 @@ export class SubjectRepository implements ISubjectRepository {
   async create (data: PartialBy<ISubject, 'id'>): Promise<ISubject> {
     return await this.repo.create(data as Subject)
   }
+
+  async findById (subjectId: number): Promise<ISubject> {
+    return await this.repo.findByPk(subjectId) as ISubject
+  }
 }
