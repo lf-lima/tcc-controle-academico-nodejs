@@ -7,6 +7,10 @@ export class InputUploadFileToSubject extends InputBaseValidator {
   subjectId!: number
 
   @IsNotEmpty()
+  @IsNumber()
+  professorId!: number
+
+  @IsNotEmpty()
   @IsString()
   fileName!: string
 

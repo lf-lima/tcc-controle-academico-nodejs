@@ -23,6 +23,10 @@ export default async function populateProfilesAndPermissions (): Promise<void> {
     {
       name: 'createProfessor',
       description: 'accept create professor'
+    },
+    {
+      name: 'uploadFileToSubject',
+      description: 'accept upload file to subject'
     }
   ] as any
 
@@ -57,7 +61,9 @@ export default async function populateProfilesAndPermissions (): Promise<void> {
     },
     {
       name: 'professor',
-      permissions: []
+      permissions: [
+        'uploadFileToSubject'
+      ]
     }
   ]
 

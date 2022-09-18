@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response, Router } from 'express'
+import { NextFunction, Response, Router } from 'express'
 import { routers } from '#framework/const/routers'
 import { IMainRouter } from '#framework/routers/base/iMainRouter'
 import { ExpressRouter } from '#framework/routers/express/expressRouter'

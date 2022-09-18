@@ -1,16 +1,16 @@
 import { IBaseUseCase } from '#business/useCases/iBaseUseCase'
-import { IUserRepository } from '#business/repositories/iUserRepository'
 import { CreateStudentInputDto } from '#business/dto/student/createStudentInputDto'
 import { IStudent } from '#domain/entities/iStudent'
 import { IStudentRepository } from '#business/repositories/iStudentRepository'
+import { CreateUserUseCase } from '#business/useCases/user/createUserUseCase'
 
 export class CreateStudentUseCase implements IBaseUseCase<CreateStudentInputDto, IStudent> {
   private studentRepository!: IStudentRepository
-  private userRepository!: IUserRepository
+  private createUserUseCase!: CreateUserUseCase
 
-  constructor (studentRepository: IStudentRepository, userRepository: IUserRepository) {
+  constructor (studentRepository: IStudentRepository, createUserUseCase: CreateUserUseCase) {
     this.studentRepository = studentRepository
-    this.userRepository = userRepository
+    this.createUserUseCase = createUserUseCase
   }
 
   async run (input: CreateStudentInputDto): Promise<IStudent> {
@@ -18,7 +18,7 @@ export class CreateStudentUseCase implements IBaseUseCase<CreateStudentInputDto,
 
     const { profileId, password, name, institutionId, documentNumber } = input
 
-    const user = await this.userRepository.create({ profileId, password, documentNumber })
+    const user = await this.createUserUseCase.run({ profileId, password, documentNumber })
 
     console.log('user created: ', user)
 

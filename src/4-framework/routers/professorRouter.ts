@@ -4,6 +4,7 @@ import { InputCreateProfessor } from '#gateway/serializers/professor/inputCreate
 import { CreateProfessorOperation } from '#gateway/operations/professor/createProfessorOperation'
 import { CreateProfessorUseCase } from '#business/useCases/professor/createProfessorUseCase'
 import { ProfessorRepository } from '#framework/repositories/professorRepository'
+import { CreateUserUseCase } from '#business/useCases/user/createUserUseCase'
 
 export class ProfessorRouter extends ExpressRouter {
   constructor () {
@@ -14,7 +15,7 @@ export class ProfessorRouter extends ExpressRouter {
         routePath: '',
         input: InputCreateProfessor,
         operation: new CreateProfessorOperation(
-          new CreateProfessorUseCase(new ProfessorRepository(), new UserRepository())
+          new CreateProfessorUseCase(new ProfessorRepository(), new CreateUserUseCase(new UserRepository()))
         ),
         permissions: [
           'createProfessor'

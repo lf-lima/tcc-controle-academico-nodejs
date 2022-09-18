@@ -1,10 +1,11 @@
-import { Request, Response } from 'express'
+import { Response } from 'express'
 import { BaseInputAdapt, IBaseOperationAdapter } from '#framework/adapters/operation/baseOperationAdapter'
 import { IBaseEntity } from '#domain/entities/iBaseEntity'
 import { HttpRequest } from '#gateway/modules/http/httpRequest'
 import { HttpBadRequestResponse, IHttpResponse } from '#gateway/modules/http/httpResponse'
 import { IBaseOperation } from '#gateway/operations/base/iBaseOperation'
 import { InputBaseValidator } from '#gateway/serializers/base/inputBaseValidator'
+import { TokenPayload } from '#domain/models/token'
 
 export class ExpressOperationAdapter implements IBaseOperationAdapter {
   private operation!: IBaseOperation
@@ -14,8 +15,9 @@ export class ExpressOperationAdapter implements IBaseOperationAdapter {
   }
 
   adapt ({ Input = InputBaseValidator, inputNormalizer }: BaseInputAdapt) {
-    return async (req: Request, res: Response): Promise<Response<IHttpResponse<IBaseEntity>>> => {
+    return async (req: any, res: Response): Promise<Response<IHttpResponse<IBaseEntity>>> => {
       const reqFile: { file?: any, files?: any } = {}
+      const tokenPayload: { tokenPayload?: TokenPayload } = {}
 
       if (req.file) {
         reqFile.file = req.file
@@ -25,7 +27,11 @@ export class ExpressOperationAdapter implements IBaseOperationAdapter {
         reqFile.files = req.files
       }
 
-      const httpRequest = new HttpRequest({ body: { ...req.body, ...req.params, ...reqFile } })
+      if (req.tokenPayload) {
+        tokenPayload.tokenPayload = req.tokenPayload
+      }
+
+      const httpRequest = new HttpRequest({ body: { ...req.body, ...req.params, ...reqFile, ...tokenPayload } })
 
       let input: InputBaseValidator
 

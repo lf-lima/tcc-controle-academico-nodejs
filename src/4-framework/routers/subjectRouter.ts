@@ -7,6 +7,7 @@ import { UploadFileToSubjectOperation } from '#gateway/operations/subject/upload
 import { UploadFileToSubjectUseCase } from '#business/useCases/subject/uploadFileToSubjectUseCase'
 import { UploadService } from '#framework/services/uploadService'
 import { InputUploadFileToSubject } from '#gateway/serializers/subject/inputUploadFileToSubject'
+import { UploadedFileRepository } from '#framework/repositories/uploadedFileRepository'
 
 export class SubjectRouter extends ExpressRouter {
   constructor () {
@@ -24,24 +25,27 @@ export class SubjectRouter extends ExpressRouter {
         ]
       },
       {
-        routeName: 'uploadToSubject',
+        routeName: 'uploadFileToSubject',
         method: 'post',
         routePath: '/:subjectId/uploadFile',
         input: InputUploadFileToSubject,
         inputNormalizer: (httpRequest) => {
-          console.log(httpRequest)
           return new InputUploadFileToSubject({
             subjectId: Number(httpRequest.body.subjectId),
             fileName: httpRequest.body.file.originalname,
-            fileBuffer: httpRequest.body.file.buffer
+            fileBuffer: httpRequest.body.file.buffer,
+            professorId: Number(httpRequest.body.tokenPayload.professorId)
           })
         },
         operation: new UploadFileToSubjectOperation(
-          new UploadFileToSubjectUseCase(new SubjectRepository(), new UploadService())
+          new UploadFileToSubjectUseCase(new SubjectRepository(), new UploadedFileRepository(), new UploadService())
         ),
         options: {
           uploadFileMiddleware: true
-        }
+        },
+        permissions: [
+          'uploadFileToSubject'
+        ]
       }
     ])
   }

@@ -4,6 +4,7 @@ import { InputCreateStudent } from '#gateway/serializers/student/inputCreateStud
 import { CreateStudentOperation } from '#gateway/operations/student/createStudentOperation'
 import { CreateStudentUseCase } from '#business/useCases/student/createStudentUseCase'
 import { StudentRepository } from '#framework/repositories/studentRepository'
+import { CreateUserUseCase } from '#business/useCases/user/createUserUseCase'
 
 export class StudentRouter extends ExpressRouter {
   constructor () {
@@ -14,7 +15,7 @@ export class StudentRouter extends ExpressRouter {
         routePath: '',
         input: InputCreateStudent,
         operation: new CreateStudentOperation(
-          new CreateStudentUseCase(new StudentRepository(), new UserRepository())
+          new CreateStudentUseCase(new StudentRepository(), new CreateUserUseCase(new UserRepository()))
         ),
         permissions: [
           'createStudent'

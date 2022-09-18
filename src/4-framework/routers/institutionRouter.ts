@@ -4,6 +4,7 @@ import { InputCreateInstitution } from '#gateway/serializers/institution/inputCr
 import { CreateInstitutionOperation } from '#gateway/operations/institution/createInstitutionOperation'
 import { CreateInstitutionUseCase } from '#business/useCases/institution/createInstitutionUseCase'
 import { InstitutionRepository } from '#framework/repositories/institutionRepository'
+import { CreateUserUseCase } from '#business/useCases/user/createUserUseCase'
 
 export class InstitutionRouter extends ExpressRouter {
   constructor () {
@@ -14,7 +15,7 @@ export class InstitutionRouter extends ExpressRouter {
         routePath: '',
         input: InputCreateInstitution,
         operation: new CreateInstitutionOperation(
-          new CreateInstitutionUseCase(new InstitutionRepository(), new UserRepository())
+          new CreateInstitutionUseCase(new InstitutionRepository(), new CreateUserUseCase(new UserRepository()))
         ),
         permissions: [
           'createInstitution'
