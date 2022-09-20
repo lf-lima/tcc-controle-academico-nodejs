@@ -5,9 +5,12 @@ import { SubjectRepository } from '#framework/repositories/subjectRepository'
 import { InputCreateSubject } from '#gateway/serializers/subject/inputCreateSubject'
 import { UploadFileToSubjectOperation } from '#gateway/operations/subject/uploadFileToSubjectOperation'
 import { UploadFileToSubjectUseCase } from '#business/useCases/subject/uploadFileToSubjectUseCase'
-import { UploadService } from '#framework/services/uploadService'
+import { FileStorageService } from '#framework/services/fileStorageService'
 import { InputUploadFileToSubject } from '#gateway/serializers/subject/inputUploadFileToSubject'
 import { UploadedFileRepository } from '#framework/repositories/uploadedFileRepository'
+import { InputDownloadFileFromSubject } from '#gateway/serializers/subject/inputDownloadFileOfSubject'
+import { DownloadFileFromSubjectOperation } from '#gateway/operations/subject/downloadFileFromSubjectOperation'
+import { DownloadFileFromSubjectUseCase } from '#business/useCases/subject/downloadFileFromSubjectUseCase'
 
 export class SubjectRouter extends ExpressRouter {
   constructor () {
@@ -38,13 +41,30 @@ export class SubjectRouter extends ExpressRouter {
           })
         },
         operation: new UploadFileToSubjectOperation(
-          new UploadFileToSubjectUseCase(new UploadedFileRepository(), new UploadService())
+          new UploadFileToSubjectUseCase(new UploadedFileRepository(), new FileStorageService())
         ),
         options: {
           uploadFileMiddleware: true
         },
         permissions: [
           'uploadFileToSubject'
+        ]
+      },
+      {
+        routeName: 'downloadFileFromSubject',
+        method: 'get',
+        routePath: '/:subjectId/file/:uploadedFileId/download',
+        input: InputDownloadFileFromSubject,
+        inputNormalizer: (httpRequest) => {
+          return new InputDownloadFileFromSubject({
+            uploadedFileId: Number(httpRequest.body.uploadedFileId)
+          })
+        },
+        operation: new DownloadFileFromSubjectOperation(
+          new DownloadFileFromSubjectUseCase(new UploadedFileRepository(), new FileStorageService())
+        ),
+        permissions: [
+          'downloadFileFromSubject'
         ]
       }
     ])

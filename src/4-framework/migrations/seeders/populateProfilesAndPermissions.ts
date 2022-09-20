@@ -27,6 +27,10 @@ export default async function populateProfilesAndPermissions (): Promise<void> {
     {
       name: 'uploadFileToSubject',
       description: 'accept upload file to subject'
+    },
+    {
+      name: 'downloadFileFromSubject',
+      description: 'accept download file from subject'
     }
   ] as any
 
@@ -57,12 +61,15 @@ export default async function populateProfilesAndPermissions (): Promise<void> {
     },
     {
       name: 'student',
-      permissions: []
+      permissions: [
+        'downloadFileFromSubject'
+      ]
     },
     {
       name: 'professor',
       permissions: [
-        'uploadFileToSubject'
+        'uploadFileToSubject',
+        'downloadFileFromSubject'
       ]
     }
   ]

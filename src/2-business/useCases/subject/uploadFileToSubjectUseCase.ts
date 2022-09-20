@@ -1,18 +1,18 @@
 import { IBaseUseCase } from '#business/useCases/iBaseUseCase'
 import { UploadFileToSubjectInputDto } from '#business/dto/subject/uploadFileToSubjectInputDto'
-import { IUploadFileService } from '#business/services/iUploadFileService'
+import { IFileStorageService } from '#business/services/iFileStorageService'
 import { IUploadedFileRepository } from '#business/repositories/iUploadedFileRepository'
 
 export class UploadFileToSubjectUseCase implements IBaseUseCase<UploadFileToSubjectInputDto, void> {
   private uploadedFileToRepository!: IUploadedFileRepository
-  private uploadService!: IUploadFileService
+  private fileStorageService!: IFileStorageService
 
   constructor (
     uploadedFileToRepository: IUploadedFileRepository,
-    uploadService: IUploadFileService
+    fileStorageService: IFileStorageService
   ) {
     this.uploadedFileToRepository = uploadedFileToRepository
-    this.uploadService = uploadService
+    this.fileStorageService = fileStorageService
   }
 
   async run (input: UploadFileToSubjectInputDto): Promise<void> {
@@ -25,7 +25,7 @@ export class UploadFileToSubjectUseCase implements IBaseUseCase<UploadFileToSubj
 
     const newFileName = `${fileName}_${uploadedFileId}.${fileExtension}`
 
-    await this.uploadService.upload({ fileName: newFileName, fileExtension, fileBuffer })
+    await this.fileStorageService.upload({ fileName: newFileName, fileExtension, fileBuffer })
 
     console.log('uploaded file to subject')
   }
