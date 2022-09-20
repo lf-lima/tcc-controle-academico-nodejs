@@ -20,6 +20,10 @@ export class SubjectRouter extends ExpressRouter {
         method: 'post',
         routePath: '',
         input: InputCreateSubject,
+        inputNormalizer: ({ body }) => new InputCreateSubject({
+          ...body,
+          institutionId: Number(body.tokenPayload.institutionId),
+        }),
         operation: new CreateSubjectOperation(
           new CreateSubjectUseCase(new SubjectRepository())
         ),
@@ -32,14 +36,12 @@ export class SubjectRouter extends ExpressRouter {
         method: 'post',
         routePath: '/:subjectId/file/upload',
         input: InputUploadFileToSubject,
-        inputNormalizer: (httpRequest) => {
-          return new InputUploadFileToSubject({
-            subjectId: Number(httpRequest.body.subjectId),
-            fileName: httpRequest.body.file.originalname,
-            fileBuffer: httpRequest.body.file.buffer,
-            professorId: Number(httpRequest.body.tokenPayload.professorId)
-          })
-        },
+        inputNormalizer: ({ body }) => new InputUploadFileToSubject({
+          subjectId: Number(body.subjectId),
+          fileName: body.file.originalname,
+          fileBuffer: body.file.buffer,
+          professorId: Number(body.tokenPayload.professorId)
+        }),
         operation: new UploadFileToSubjectOperation(
           new UploadFileToSubjectUseCase(new UploadedFileRepository(), new FileStorageService())
         ),

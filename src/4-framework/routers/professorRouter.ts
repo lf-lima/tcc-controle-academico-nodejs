@@ -14,6 +14,10 @@ export class ProfessorRouter extends ExpressRouter {
         method: 'post',
         routePath: '',
         input: InputCreateProfessor,
+        inputNormalizer: ({ body }) => new InputCreateProfessor({
+          ...body,
+          institutionId: Number(body.tokenPayload.institutionId),
+        }),
         operation: new CreateProfessorOperation(
           new CreateProfessorUseCase(new ProfessorRepository(), new CreateUserUseCase(new UserRepository()))
         ),

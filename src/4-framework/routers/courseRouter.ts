@@ -12,6 +12,10 @@ export class CourseRouter extends ExpressRouter {
         method: 'post',
         routePath: '',
         input: InputCreateCourse,
+        inputNormalizer: ({ body }) => new InputCreateCourse({
+          ...body,
+          institutionId: Number(body.tokenPayload.institutionId)
+        }),
         operation: new CreateCourseOperation(
           new CreateCourseUseCase(new CourseRepository())
         ),

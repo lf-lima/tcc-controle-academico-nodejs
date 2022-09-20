@@ -14,6 +14,10 @@ export class StudentRouter extends ExpressRouter {
         method: 'post',
         routePath: '',
         input: InputCreateStudent,
+        inputNormalizer: ({ body }) => new InputCreateStudent({
+          ...body,
+          institutionId: Number(body.tokenPayload.institutionId),
+        }),
         operation: new CreateStudentOperation(
           new CreateStudentUseCase(new StudentRepository(), new CreateUserUseCase(new UserRepository()))
         ),
