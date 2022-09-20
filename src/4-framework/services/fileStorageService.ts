@@ -1,3 +1,4 @@
+import { env } from '#business/const/environments'
 import { IFileStorageService } from '#business/services/iFileStorageService'
 import { S3 } from 'aws-sdk'
 
@@ -5,8 +6,8 @@ export class FileStorageService implements IFileStorageService {
   private readonly uploader = new S3({
     signatureVersion: 'v4'
   })
-  private readonly bucketName = 'subject-files'
-  private readonly downloadUrlExpirationInSeconds = 15 * 60
+  private readonly bucketName = env.BUCKET_NAME as string
+  private readonly downloadUrlExpirationInSeconds: number = Number(env.EXPIRATION_TIME_IN_SECONDS_TO_DOWNLOAD_URL)
 
   async upload (input: { fileName: string; fileExtension: string; fileBuffer: Buffer }): Promise<void> {
     console.log('start upload file, input', input)

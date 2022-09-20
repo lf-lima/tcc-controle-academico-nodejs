@@ -1,3 +1,4 @@
+import { env } from '#business/const/environments'
 import { UserRepository } from '#framework/repositories/userRepository'
 import { Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
@@ -30,7 +31,7 @@ export async function authenticationMiddleware (req: any, res: Response, next: N
       return res.status(401).json({ error: 'Token malformed' })
     }
 
-    const payload = jwt.verify(token, process.env.ACCESS_SECRET as string) as {
+    const payload = jwt.verify(token, env.ACCESS_SECRET as string) as {
       userId: number,
       userEmail: string,
       companyId: number,

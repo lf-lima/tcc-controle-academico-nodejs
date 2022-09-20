@@ -1,12 +1,11 @@
 import { SequelizeOptions } from 'sequelize-typescript'
 import path from 'path'
-import { config } from 'dotenv'
-config()
+import { env } from '#business/const/environments'
 
-let host = process.env.DB_HOST as string
+let host = env.DB_HOST as string
 
-if (process.env.CLEARDB_DATABASE_URL) {
-  const clearDBFullUrl = process.env.CLEARDB_DATABASE_URL
+if (env.CLEARDB_DATABASE_URL) {
+  const clearDBFullUrl = env.CLEARDB_DATABASE_URL
 
   const [, urlWithDataBase] = clearDBFullUrl?.split('@') as string[]
 
@@ -15,9 +14,9 @@ if (process.env.CLEARDB_DATABASE_URL) {
 
 export const baseSequelizeOptions = {
   host,
-  database: process.env.DB_NAME as string,
-  username: process.env.DB_USER as string,
-  password: process.env.DB_PASS as string,
+  database: env.DB_NAME,
+  username: env.DB_USER as string,
+  password: env.DB_PASS as string,
   storage: ':memory:',
   models: [path.resolve(__dirname, '..', 'models', 'mysql', '*.model.ts')]
 } as SequelizeOptions

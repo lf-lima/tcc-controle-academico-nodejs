@@ -4,6 +4,7 @@ import { port } from '#framework/const/port'
 import { IMainExpressRouter, MainExpressRouter } from '#framework/routers/express/mainExpressRouter'
 import { IDBConnection } from '#framework/database/base/iConnection'
 import { Seeder } from '#framework/migrations/seeder'
+import { env } from '#business/const/environments'
 
 export class ExpressServer<TDBConfig> {
   private app: express.Application
@@ -27,7 +28,7 @@ export class ExpressServer<TDBConfig> {
     this.middlewares()
     this.routes()
 
-    this.app.listen(process.env.PORT || port, () => {
+    this.app.listen(env.PORT || port, () => {
       console.log('SERVER ON')
       console.log(`Listen in http://localhost:${port}\n`)
     })
