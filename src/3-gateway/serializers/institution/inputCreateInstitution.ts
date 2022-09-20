@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString, Length } from 'class-validator'
+import { IsNotEmpty, IsString, Length } from 'class-validator'
 import { Match } from '#gateway/serializers/base/decorators'
 import { InputBaseValidator } from '#gateway/serializers/base/inputBaseValidator'
 
