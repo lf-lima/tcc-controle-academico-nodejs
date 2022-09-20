@@ -3,6 +3,7 @@ import { BaseModel } from '#framework/models/mysql/baseModel'
 import Permission from '#framework/models/mysql/permission.model'
 import ProfilePermission from '#framework/models/mysql/profilePermission.model'
 import User from '#framework/models/mysql/user.model'
+import { ProfileName } from '#domain/enums/profileName'
 
 @DefaultScope(() => ({
   attributes: { exclude: ['createdAt', 'updatedAt'] },

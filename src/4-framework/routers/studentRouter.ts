@@ -5,6 +5,7 @@ import { CreateStudentOperation } from '#gateway/operations/student/createStuden
 import { CreateStudentUseCase } from '#business/useCases/student/createStudentUseCase'
 import { StudentRepository } from '#framework/repositories/studentRepository'
 import { CreateUserUseCase } from '#business/useCases/user/createUserUseCase'
+import { ProfileRepository } from '#framework/repositories/profileRepository'
 
 export class StudentRouter extends ExpressRouter {
   constructor () {
@@ -19,7 +20,9 @@ export class StudentRouter extends ExpressRouter {
           institutionId: Number(body.tokenPayload.institutionId),
         }),
         operation: new CreateStudentOperation(
-          new CreateStudentUseCase(new StudentRepository(), new CreateUserUseCase(new UserRepository()))
+          new CreateStudentUseCase(
+            new StudentRepository(), new ProfileRepository(), new CreateUserUseCase(new UserRepository())
+          )
         ),
         permissions: [
           'createStudent'

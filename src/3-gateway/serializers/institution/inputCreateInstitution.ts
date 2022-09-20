@@ -16,10 +16,6 @@ export class InputCreateInstitution extends InputBaseValidator {
   documentNumber!: string
 
   @IsNotEmpty()
-  @IsNumber()
-  profileId!: number
-
-  @IsNotEmpty()
   @IsString()
   @Length(6, 16)
   public password!: string

@@ -5,6 +5,7 @@ import { CreateProfessorOperation } from '#gateway/operations/professor/createPr
 import { CreateProfessorUseCase } from '#business/useCases/professor/createProfessorUseCase'
 import { ProfessorRepository } from '#framework/repositories/professorRepository'
 import { CreateUserUseCase } from '#business/useCases/user/createUserUseCase'
+import { ProfileRepository } from '#framework/repositories/profileRepository'
 
 export class ProfessorRouter extends ExpressRouter {
   constructor () {
@@ -19,7 +20,9 @@ export class ProfessorRouter extends ExpressRouter {
           institutionId: Number(body.tokenPayload.institutionId),
         }),
         operation: new CreateProfessorOperation(
-          new CreateProfessorUseCase(new ProfessorRepository(), new CreateUserUseCase(new UserRepository()))
+          new CreateProfessorUseCase(
+            new ProfessorRepository(), new ProfileRepository(), new CreateUserUseCase(new UserRepository())
+          )
         ),
         permissions: [
           'createProfessor'
