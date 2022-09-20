@@ -1,6 +1,7 @@
 import { Sequelize } from 'sequelize-typescript'
 import { ISequelizeDBConfig } from '#framework/database/sequelize/sequelizeConfig'
 import { IDBConnection } from '#framework/database/base/iConnection'
+import { env } from '#business/const/environments'
 
 export type ISequelizeConnection = IDBConnection<ISequelizeDBConfig>
 
@@ -14,6 +15,6 @@ export class SequelizeConnection implements ISequelizeConnection {
   public async connect (): Promise<void> {
     const sequelize = new Sequelize(this.config.options)
 
-    await sequelize.sync({ force: true })
+    await sequelize.sync({ force: env.ENV === 'local' })
   }
 }

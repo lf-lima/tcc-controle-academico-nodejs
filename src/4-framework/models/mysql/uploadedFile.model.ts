@@ -20,8 +20,8 @@ export default class UploadedFile extends BaseModel<UploadedFile> implements IUp
   @Column
   professorId!: number
 
-  // @BelongsTo(() => Subject)
-  // subject?: Subject
+  @BelongsTo(() => Subject)
+  subject?: Subject
 
   @BelongsTo(() => Professor)
   professor?: Professor

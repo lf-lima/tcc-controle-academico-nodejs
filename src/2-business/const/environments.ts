@@ -2,6 +2,7 @@ import { config } from 'dotenv'
 config()
 
 export const env = {
+  ENV: process.env.ENV as string,
   PORT: process.env.PORT as string,
   DB_HOST: process.env.DB_HOST as string,
   DB_NAME: process.env.DB_NAME as string,
