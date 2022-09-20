@@ -27,7 +27,7 @@ export class SubjectRouter extends ExpressRouter {
       {
         routeName: 'uploadFileToSubject',
         method: 'post',
-        routePath: '/:subjectId/uploadFile',
+        routePath: '/:subjectId/file/upload',
         input: InputUploadFileToSubject,
         inputNormalizer: (httpRequest) => {
           return new InputUploadFileToSubject({
@@ -38,7 +38,7 @@ export class SubjectRouter extends ExpressRouter {
           })
         },
         operation: new UploadFileToSubjectOperation(
-          new UploadFileToSubjectUseCase(new SubjectRepository(), new UploadedFileRepository(), new UploadService())
+          new UploadFileToSubjectUseCase(new UploadedFileRepository(), new UploadService())
         ),
         options: {
           uploadFileMiddleware: true

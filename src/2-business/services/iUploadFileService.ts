@@ -1,4 +1,4 @@
 export interface IUploadFileService {
-  upload(input: { fileName: string, fileBuffer: Buffer }): Promise<string>
-  getObjectUrl (fileName: string): string
+  upload(input: { fileName: string; fileExtension: string; fileBuffer: Buffer }): Promise<void>
+  getObjectUrl (fileKey: string): Promise<string>
 }

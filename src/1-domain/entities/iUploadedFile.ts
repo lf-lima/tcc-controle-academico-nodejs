@@ -5,5 +5,4 @@ export interface IUploadedFile extends IBaseEntity {
   fileName: string
   extension: string
   professorId: number
-  downloadUrl: string
 }
