@@ -22,7 +22,7 @@ export class SubjectRouter extends ExpressRouter {
         input: InputCreateSubject,
         inputNormalizer: ({ body }) => new InputCreateSubject({
           ...body,
-          institutionId: Number(body.tokenPayload.institutionId),
+          institutionId: Number(body.tokenPayload.institutionId ?? body.institutionId)
         }),
         operation: new CreateSubjectOperation(
           new CreateSubjectUseCase(new SubjectRepository())

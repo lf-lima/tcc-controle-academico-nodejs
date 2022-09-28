@@ -11,6 +11,10 @@ export class InstitutionRepository implements IInstitutionRepository {
   }
 
   async findByUserId (userId: number): Promise<IInstitution | undefined> {
-    return await this.repo.findOne({ where: { userId }}) as IInstitution | undefined
+    return await this.repo.findOne({ where: { userId } }) as IInstitution | undefined
+  }
+
+  async findAll (): Promise<IInstitution[]> {
+    return await this.repo.findAll() as IInstitution[]
   }
 }

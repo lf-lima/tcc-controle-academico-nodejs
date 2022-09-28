@@ -17,7 +17,7 @@ export class StudentRouter extends ExpressRouter {
         input: InputCreateStudent,
         inputNormalizer: ({ body }) => new InputCreateStudent({
           ...body,
-          institutionId: Number(body.tokenPayload.institutionId),
+          institutionId: Number(body.tokenPayload.institutionId ?? body.institutionId)
         }),
         operation: new CreateStudentOperation(
           new CreateStudentUseCase(

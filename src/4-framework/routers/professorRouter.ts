@@ -17,7 +17,7 @@ export class ProfessorRouter extends ExpressRouter {
         input: InputCreateProfessor,
         inputNormalizer: ({ body }) => new InputCreateProfessor({
           ...body,
-          institutionId: Number(body.tokenPayload.institutionId),
+          institutionId: Number(body.tokenPayload.institutionId ?? body.institutionId)
         }),
         operation: new CreateProfessorOperation(
           new CreateProfessorUseCase(

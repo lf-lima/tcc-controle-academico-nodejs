@@ -14,7 +14,7 @@ export class CourseRouter extends ExpressRouter {
         input: InputCreateCourse,
         inputNormalizer: ({ body }) => new InputCreateCourse({
           ...body,
-          institutionId: Number(body.tokenPayload.institutionId)
+          institutionId: Number(body.tokenPayload.institutionId ?? body.institutionId)
         }),
         operation: new CreateCourseOperation(
           new CreateCourseUseCase(new CourseRepository())
