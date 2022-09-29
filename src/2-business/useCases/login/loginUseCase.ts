@@ -51,14 +51,14 @@ export class LoginUseCase implements IBaseUseCase<LoginInputDto, LoginOutputDto>
       throw new Error('Is invalid password')
     }
 
-    const token = await this.getPayloadToken(user)
+    const token = await this.generateToken(user)
 
     console.log('generate token to access with success')
 
     return { token }
   }
 
-  private async getPayloadToken (user: IUser & { profile: { permissions: Permission[] } }) {
+  private async generateToken (user: IUser & { profile: { permissions: Permission[] } }) {
     const userId = user.id
     const permissions: string[] = user.profile.permissions.map(permission => permission.name)
 

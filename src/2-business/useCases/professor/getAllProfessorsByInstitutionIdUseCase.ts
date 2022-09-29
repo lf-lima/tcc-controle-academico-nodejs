@@ -2,7 +2,7 @@ import { IBaseUseCase } from '#business/useCases/iBaseUseCase'
 import { IProfessor } from '#domain/entities/iProfessor'
 import { IProfessorRepository } from '#business/repositories/iProfessorRepository'
 
-export class GetAllProfessorsByInstitutionIdUseCase implements IBaseUseCase<any, IProfessor[]> {
+export class GetAllProfessorsByInstitutionIdUseCase implements IBaseUseCase<number, IProfessor[]> {
   private professorRepository!: IProfessorRepository
 
   constructor (professorRepository: IProfessorRepository) {

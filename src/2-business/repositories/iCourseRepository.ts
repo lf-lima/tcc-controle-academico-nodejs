@@ -3,4 +3,5 @@ import { ICourse } from '#domain/entities/iCourse'
 
 export interface ICourseRepository {
   create(data: CreateCourseInputDto): Promise<ICourse>
+  findAllByInstitutionId (institutionId: number): Promise<ICourse[]>
 }
