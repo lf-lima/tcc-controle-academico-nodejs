@@ -6,6 +6,9 @@ import { CreateProfessorUseCase } from '#business/useCases/professor/createProfe
 import { ProfessorRepository } from '#framework/repositories/professorRepository'
 import { CreateUserUseCase } from '#business/useCases/user/createUserUseCase'
 import { ProfileRepository } from '#framework/repositories/profileRepository'
+import { GetAllProfessorsByInstitutionIdOperation } from '#gateway/operations/professor/getAllProfessorsByInstitutionIdOperation'
+import { GetAllProfessorsByInstitutionIdUseCase } from '#business/useCases/professor/getAllProfessorsByInstitutionIdUseCase'
+import { InputGetAllProfessorsByInstitutionId } from '#gateway/serializers/professor/inputGetAllProfessorsByInstitutionId'
 
 export class ProfessorRouter extends ExpressRouter {
   constructor () {
@@ -26,6 +29,23 @@ export class ProfessorRouter extends ExpressRouter {
         ),
         permissions: [
           'createProfessor'
+        ]
+      },
+      {
+        routeName: 'getAllProfessorsByInstitutionId',
+        method: 'get',
+        routePath: '',
+        input: InputGetAllProfessorsByInstitutionId,
+        inputNormalizer: ({ body }) => new InputGetAllProfessorsByInstitutionId({
+          institutionId: Number(body.tokenPayload.institutionId || body.institutionId)
+        }),
+        operation: new GetAllProfessorsByInstitutionIdOperation(
+          new GetAllProfessorsByInstitutionIdUseCase(
+            new ProfessorRepository()
+          )
+        ),
+        permissions: [
+          'getAllProfessorsByInstitutionId'
         ]
       }
     ])

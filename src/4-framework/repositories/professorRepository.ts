@@ -13,4 +13,12 @@ export class ProfessorRepository implements IProfessorRepository {
   async findByUserId (userId: number): Promise<IProfessor | undefined> {
     return await this.repo.findOne({ where: { userId }}) as IProfessor | undefined
   }
+
+  async findAll (): Promise<IProfessor[]> {
+    return await this.repo.findAll() as IProfessor[]
+  }
+
+  async findAllByInstitutionId (institutionId: number): Promise<IProfessor[]> {
+    return await this.repo.findAll({ where: { institutionId } }) as IProfessor[]
+  }
 }
