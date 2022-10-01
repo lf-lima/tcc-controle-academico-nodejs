@@ -43,6 +43,10 @@ export default async function populateProfilesAndPermissions (): Promise<void> {
     {
       name: 'getAllProfessorsByInstitutionId',
       description: 'accept get all professors by institution id'
+    },
+    {
+      name: 'getAllSubjects',
+      description: 'accept get all subjects'
     }
   ] as any
 
@@ -62,7 +66,8 @@ export default async function populateProfilesAndPermissions (): Promise<void> {
         'createProfessor',
         'getAllInstitutions',
         'getAllProfessorsByInstitutionId',
-        'getAllCoursesByInstitutionId'
+        'getAllCoursesByInstitutionId',
+        'getAllSubjects'
       ]
     },
     {
@@ -73,20 +78,23 @@ export default async function populateProfilesAndPermissions (): Promise<void> {
         'createSubject',
         'createProfessor',
         'getAllProfessorsByInstitutionId',
-        'getAllCoursesByInstitutionId'
+        'getAllCoursesByInstitutionId',
+        'getAllSubjects'
       ]
     },
     {
       name: 'professor',
       permissions: [
         'uploadFileToSubject',
-        'downloadFileFromSubject'
+        'downloadFileFromSubject',
+        'getAllSubjects'
       ]
     },
     {
       name: 'student',
       permissions: [
-        'downloadFileFromSubject'
+        'downloadFileFromSubject',
+        'getAllSubjects'
       ]
     }
   ]

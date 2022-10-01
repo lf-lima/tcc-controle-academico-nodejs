@@ -11,6 +11,11 @@ import { UploadedFileRepository } from '#framework/repositories/uploadedFileRepo
 import { InputDownloadFileFromSubject } from '#gateway/serializers/subject/inputDownloadFileOfSubject'
 import { DownloadFileFromSubjectOperation } from '#gateway/operations/subject/downloadFileFromSubjectOperation'
 import { DownloadFileFromSubjectUseCase } from '#business/useCases/subject/downloadFileFromSubjectUseCase'
+import { InputGetAllSubjects } from '#gateway/serializers/subject/inputGetAllSubjects'
+import { GetAllSubjectsOperation } from '#gateway/operations/subject/getAllSubjectsOperation'
+import { GetAllSubjectsByInstitutionIdUseCase } from '#business/useCases/subject/getAllSubjectsByInstitutionIdUseCase'
+import { GetAllSubjectsByProfessorIdUseCase } from '#business/useCases/subject/getAllSubjectsByProfessorIdUseCase'
+import { GetAllSubjectsByStudentIdUseCase } from '#business/useCases/subject/getAllSubjectsByStudentsIdUseCase'
 
 export class SubjectRouter extends ExpressRouter {
   constructor () {
@@ -68,7 +73,26 @@ export class SubjectRouter extends ExpressRouter {
         permissions: [
           'downloadFileFromSubject'
         ]
-      }
+      },
+      {
+        routeName: 'getAllSubjects',
+        method: 'get',
+        routePath: '',
+        input: InputGetAllSubjects,
+        inputNormalizer: ({ body }) => new InputGetAllSubjects({
+          institutionId: Number(body.tokenPayload.institutionId ?? body.institutionId),
+          professorId: Number(body.tokenPayload.professorId ?? body.professorId),
+          studentId: Number(body.tokenPayload.studentId ?? body.studentId)
+        }),
+        operation: new GetAllSubjectsOperation(
+          new GetAllSubjectsByInstitutionIdUseCase(new SubjectRepository()),
+          new GetAllSubjectsByProfessorIdUseCase(new SubjectRepository()),
+          new GetAllSubjectsByStudentIdUseCase(new SubjectRepository())
+        ),
+        permissions: [
+          'getAllSubjects'
+        ]
+      },
     ])
   }
 }
