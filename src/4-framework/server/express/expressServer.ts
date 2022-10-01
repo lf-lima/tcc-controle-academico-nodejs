@@ -1,5 +1,6 @@
 import express from 'express'
 import cors from 'cors'
+import bodyParser from 'body-parser'
 import { port } from '#framework/const/port'
 import { IMainExpressRouter, MainExpressRouter } from '#framework/routers/express/mainExpressRouter'
 import { IDBConnection } from '#framework/database/base/iConnection'
@@ -37,6 +38,7 @@ export class ExpressServer<TDBConfig> {
   public middlewares (): void {
     this.app.use(cors({ origin: '*' }))
     this.app.use(express.json())
+    this.app.use(bodyParser.urlencoded())
   }
 
   public routes (): void {
