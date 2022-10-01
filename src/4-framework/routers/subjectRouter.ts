@@ -83,9 +83,9 @@ export class SubjectRouter extends ExpressRouter {
         routePath: '',
         input: InputGetAllSubjects,
         inputNormalizer: ({ body }) => new InputGetAllSubjects({
-          institutionId: body.tokenPayload.institutionId ? Number(body.tokenPayload.institutionId) : Number(body.institutionId),
-          professorId: body.tokenPayload.professorId ? Number(body.tokenPayload.professorId) : Number(body.professorId),
-          studentId: body.tokenPayload.studentId ? Number(body.tokenPayload.studentId) : Number(body.studentId)
+          institutionId: Number(body.tokenPayload.institutionId ?? body.institutionId ?? 0),
+          professorId: Number(body.tokenPayload.professorId ?? body.professorId ?? 0),
+          studentId: Number(body.tokenPayload.studentId ?? body.studentId ?? 0)
         }),
         operation: new GetAllSubjectsOperation(
           new GetAllSubjectsByInstitutionIdUseCase(new SubjectRepository()),
