@@ -19,6 +19,7 @@ export class ExpressOperationAdapter implements IBaseOperationAdapter {
       const reqFile: { file?: any, files?: any } = {}
       const tokenPayload: { tokenPayload?: TokenPayload } = {}
 
+      console.log('EXPRESS REQUEST: ', req)
       if (req.file) {
         reqFile.file = req.file
       }
