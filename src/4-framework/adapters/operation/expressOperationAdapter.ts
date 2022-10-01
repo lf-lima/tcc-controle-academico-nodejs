@@ -19,7 +19,6 @@ export class ExpressOperationAdapter implements IBaseOperationAdapter {
       const reqFile: { file?: any, files?: any } = {}
       const tokenPayload: { tokenPayload?: TokenPayload } = {}
 
-      console.log('EXPRESS REQUEST: ', req)
       if (req.file) {
         reqFile.file = req.file
       }
@@ -33,6 +32,8 @@ export class ExpressOperationAdapter implements IBaseOperationAdapter {
       }
 
       const httpRequest = new HttpRequest({ body: { ...req.body, ...req.params, ...reqFile, ...tokenPayload } })
+
+      console.log('EXPRESS REQUEST: ', httpRequest)
 
       let input: InputBaseValidator
 
