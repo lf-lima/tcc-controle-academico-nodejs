@@ -91,7 +91,8 @@ export default async function populateProfilesAndPermissions (): Promise<void> {
         'getAllCoursesByInstitutionId',
         'getAllSubjects',
         'getSubjectById',
-        'getAllUploadedFilesBySubjectId'
+        'getAllUploadedFilesBySubjectId',
+        'downloadFileFromSubject'
       ]
     },
     {
