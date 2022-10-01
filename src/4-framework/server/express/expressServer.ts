@@ -36,6 +36,7 @@ export class ExpressServer<TDBConfig> {
 
   public middlewares (): void {
     this.app.use(cors({ origin: '*' }))
+    this.app.use(express.json())
   }
 
   public routes (): void {
