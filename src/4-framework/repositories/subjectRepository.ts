@@ -30,5 +30,4 @@ export class SubjectRepository implements ISubjectRepository {
 
     return await this.repo.findAll({ where: { id: subjectIds } })
   }
-
 }

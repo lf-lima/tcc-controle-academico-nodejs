@@ -16,6 +16,9 @@ import { GetAllSubjectsOperation } from '#gateway/operations/subject/getAllSubje
 import { GetAllSubjectsByInstitutionIdUseCase } from '#business/useCases/subject/getAllSubjectsByInstitutionIdUseCase'
 import { GetAllSubjectsByProfessorIdUseCase } from '#business/useCases/subject/getAllSubjectsByProfessorIdUseCase'
 import { GetAllSubjectsByStudentIdUseCase } from '#business/useCases/subject/getAllSubjectsByStudentsIdUseCase'
+import { InputGetSubjectById } from '#gateway/serializers/subject/inputGetSubjectById'
+import { GetSubjectByIdOperation } from '#gateway/operations/subject/getSubjectByIdOperation'
+import { GetSubjectByIdUseCase } from '#business/useCases/subject/getSubjectByIdUseCase'
 
 export class SubjectRouter extends ExpressRouter {
   constructor () {
@@ -93,6 +96,21 @@ export class SubjectRouter extends ExpressRouter {
           'getAllSubjects'
         ]
       },
+      {
+        routeName: 'getSubjectById',
+        method: 'get',
+        routePath: '/:subjectId',
+        input: InputGetSubjectById,
+        inputNormalizer: ({ body }) => new InputGetSubjectById({
+          subjectId: Number(body.subjectId)
+        }),
+        operation: new GetSubjectByIdOperation(
+          new GetSubjectByIdUseCase(new SubjectRepository())
+        ),
+        permissions: [
+          'getSubjectById'
+        ]
+      }
     ])
   }
 }
