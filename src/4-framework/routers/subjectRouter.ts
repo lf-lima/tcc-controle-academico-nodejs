@@ -19,6 +19,9 @@ import { GetAllSubjectsByStudentIdUseCase } from '#business/useCases/subject/get
 import { InputGetSubjectById } from '#gateway/serializers/subject/inputGetSubjectById'
 import { GetSubjectByIdOperation } from '#gateway/operations/subject/getSubjectByIdOperation'
 import { GetSubjectByIdUseCase } from '#business/useCases/subject/getSubjectByIdUseCase'
+import { InputGetAllUploadedFilesBySubjectId } from '#gateway/serializers/subject/inputGetAllUploadedFilesBySubjectId'
+import { GetAllUploadedFilesBySubjectIdOperation } from '#gateway/operations/subject/getAllUploadedFilesBySubjectIdOperation'
+import { GetAllUploadedFilesBySubjectIdUseCase } from '#business/useCases/subject/getAllUploadedFilesBySubjectIdUseCase'
 
 export class SubjectRouter extends ExpressRouter {
   constructor () {
@@ -109,6 +112,21 @@ export class SubjectRouter extends ExpressRouter {
         ),
         permissions: [
           'getSubjectById'
+        ]
+      },
+      {
+        routeName: 'getAllUploadedFilesBySubjectId',
+        method: 'get',
+        routePath: '/:subjectId/file',
+        input: InputGetAllUploadedFilesBySubjectId,
+        inputNormalizer: ({ body }) => new InputGetAllUploadedFilesBySubjectId({
+          subjectId: Number(body.subjectId)
+        }),
+        operation: new GetAllUploadedFilesBySubjectIdOperation(
+          new GetAllUploadedFilesBySubjectIdUseCase(new UploadedFileRepository())
+        ),
+        permissions: [
+          'getAllUploadedFilesBySubjectId'
         ]
       }
     ])

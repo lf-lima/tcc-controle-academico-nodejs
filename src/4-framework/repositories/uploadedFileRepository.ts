@@ -13,4 +13,8 @@ export class UploadedFileRepository implements IUploadedFileRepository {
   async findById (uploadedFileId: number): Promise<IUploadedFile | undefined> {
     return await this.repo.findByPk(uploadedFileId) as IUploadedFile
   }
+
+  async findAllUploadedFilesBySubjectId (subjectId: number): Promise<IUploadedFile[]> {
+    return await this.repo.findAll({ where: { subjectId } })
+  }
 }
