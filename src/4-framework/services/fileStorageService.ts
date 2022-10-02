@@ -3,7 +3,7 @@ import { IFileStorageService } from '#business/services/iFileStorageService'
 import { S3 } from 'aws-sdk'
 
 export class FileStorageService implements IFileStorageService {
-  private readonly uploader = new S3({ signatureVersion: 'v4' })
+  private readonly service = new S3({ signatureVersion: 'v4' })
   private readonly bucketName = env.BUCKET_NAME as string
   private readonly downloadUrlExpirationInSeconds: number = Number(env.EXPIRATION_TIME_IN_SECONDS_TO_DOWNLOAD_URL)
 
@@ -14,7 +14,7 @@ export class FileStorageService implements IFileStorageService {
 
     console.log(`bucket name: ${this.bucketName}`)
 
-    await this.uploader.putObject({
+    await this.service.putObject({
       Bucket: this.bucketName,
       Key: fileName,
       Body: fileBuffer
@@ -26,7 +26,7 @@ export class FileStorageService implements IFileStorageService {
   async getObjectUrl (fileKey: string): Promise<string> {
     console.log('start get object url')
 
-    const signedUrl = await this.uploader.getSignedUrlPromise('getObject', {
+    const signedUrl = await this.service.getSignedUrlPromise('getObject', {
       Bucket: this.bucketName,
       Key: fileKey,
       Expires: this.downloadUrlExpirationInSeconds
@@ -35,5 +35,16 @@ export class FileStorageService implements IFileStorageService {
     console.log(`download url of ${fileKey} is ${signedUrl}`)
 
     return signedUrl
+  }
+
+  async deleteObject (fileKey: string): Promise<void> {
+    console.log('start delete object')
+
+    await this.service.deleteObject({
+      Bucket: this.bucketName,
+      Key: fileKey
+    }).promise()
+
+    console.log('object deleted')
   }
 }

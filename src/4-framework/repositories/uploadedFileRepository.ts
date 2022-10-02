@@ -17,4 +17,8 @@ export class UploadedFileRepository implements IUploadedFileRepository {
   async findAllUploadedFilesBySubjectId (subjectId: number): Promise<IUploadedFile[]> {
     return await this.repo.findAll({ where: { subjectId } })
   }
+
+  async deleteById (uploadedId: number): Promise<void> {
+    await this.repo.destroy({ where: { id: uploadedId } })
+  }
 }

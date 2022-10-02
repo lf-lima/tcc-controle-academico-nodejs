@@ -22,6 +22,9 @@ import { GetSubjectByIdUseCase } from '#business/useCases/subject/getSubjectById
 import { InputGetAllUploadedFilesBySubjectId } from '#gateway/serializers/subject/inputGetAllUploadedFilesBySubjectId'
 import { GetAllUploadedFilesBySubjectIdOperation } from '#gateway/operations/subject/getAllUploadedFilesBySubjectIdOperation'
 import { GetAllUploadedFilesBySubjectIdUseCase } from '#business/useCases/subject/getAllUploadedFilesBySubjectIdUseCase'
+import { InputDeleteUploadedFile } from '#gateway/serializers/subject/inputDeleteUploadedFile'
+import { DeleteUploadedFileOperation } from '#gateway/operations/subject/deleteUploadedFileOperation'
+import { DeleteUploadedFileUseCase } from '#business/useCases/subject/deleteUploadedFileUseCase'
 
 export class SubjectRouter extends ExpressRouter {
   constructor () {
@@ -127,6 +130,23 @@ export class SubjectRouter extends ExpressRouter {
         ),
         permissions: [
           'getAllUploadedFilesBySubjectId'
+        ]
+      },
+      {
+        routeName: 'deleteUploadedFile',
+        method: 'delete',
+        routePath: '/:subjectId/file/:uploadedFileId/delete',
+        input: InputDeleteUploadedFile,
+        inputNormalizer: (httpRequest) => {
+          return new InputDeleteUploadedFile({
+            uploadedFileId: Number(httpRequest.body.uploadedFileId)
+          })
+        },
+        operation: new DeleteUploadedFileOperation(
+          new DeleteUploadedFileUseCase(new UploadedFileRepository(), new FileStorageService())
+        ),
+        permissions: [
+          'deleteUploadedFile'
         ]
       }
     ])
