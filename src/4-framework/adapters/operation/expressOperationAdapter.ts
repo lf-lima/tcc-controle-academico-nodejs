@@ -31,7 +31,7 @@ export class ExpressOperationAdapter implements IBaseOperationAdapter {
         tokenPayload.tokenPayload = req.tokenPayload
       }
 
-      const httpRequest = new HttpRequest({ body: { ...req.body, ...req.params, ...reqFile, ...tokenPayload } })
+      const httpRequest = new HttpRequest({ body: { ...req.body, ...req.params, ...req.query, ...reqFile, ...tokenPayload } })
 
       console.log('EXPRESS REQUEST: ', httpRequest)
 

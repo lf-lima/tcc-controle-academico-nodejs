@@ -6,5 +6,5 @@ export interface ISubjectRepository {
   findById(subjectId: number): Promise<ISubject>
   findAllByInstitutionId(institutionId: number): Promise<ISubject[]>
   findAllByProfessorId(professorId: number): Promise<ISubject[]>
-  findAllByStudentId(studentId: number): Promise<ISubject[]>
+  findAllByCourseId(courseId: number): Promise<ISubject[]>
 }

@@ -12,7 +12,7 @@ export class GetAllSubjectsByStudentIdUseCase implements IBaseUseCase<number, IS
   async run (studentId: number): Promise<ISubject[]> {
     console.log('start get all subjects by student id use case, studentId: ', studentId)
 
-    const subjects = await this.subjectRepository.findAllByStudentId(studentId)
+    const subjects = await this.subjectRepository.findAllByCourseId(studentId)
 
     console.log('subjects: ', subjects)
 

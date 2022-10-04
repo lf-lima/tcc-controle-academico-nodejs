@@ -24,7 +24,7 @@ export class CreateStudentUseCase implements IBaseUseCase<CreateStudentInputDto,
   async run (input: CreateStudentInputDto): Promise<IStudent> {
     console.log('start create student use case: ', input)
 
-    const { password, name, institutionId, documentNumber } = input
+    const { password, name, institutionId, documentNumber, courseId } = input
 
     const profile = await this.profileRepository.findByName(ProfileName.STUDENT)
 
@@ -40,7 +40,8 @@ export class CreateStudentUseCase implements IBaseUseCase<CreateStudentInputDto,
     const student = await this.studentRepository.create({
       userId: user.id,
       name,
-      institutionId
+      institutionId,
+      courseId
     })
 
     console.log('student created: ', student)
