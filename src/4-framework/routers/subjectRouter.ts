@@ -25,6 +25,7 @@ import { GetAllUploadedFilesBySubjectIdUseCase } from '#business/useCases/subjec
 import { InputDeleteUploadedFile } from '#gateway/serializers/subject/inputDeleteUploadedFile'
 import { DeleteUploadedFileOperation } from '#gateway/operations/subject/deleteUploadedFileOperation'
 import { DeleteUploadedFileUseCase } from '#business/useCases/subject/deleteUploadedFileUseCase'
+import { StudentRepository } from '#framework/repositories/studentRepository'
 
 export class SubjectRouter extends ExpressRouter {
   constructor () {
@@ -96,7 +97,7 @@ export class SubjectRouter extends ExpressRouter {
         operation: new GetAllSubjectsOperation(
           new GetAllSubjectsByInstitutionIdUseCase(new SubjectRepository()),
           new GetAllSubjectsByProfessorIdUseCase(new SubjectRepository()),
-          new GetAllSubjectsByStudentIdUseCase(new SubjectRepository())
+          new GetAllSubjectsByStudentIdUseCase(new SubjectRepository(), new StudentRepository())
         ),
         permissions: [
           'getAllSubjects'

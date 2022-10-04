@@ -13,4 +13,8 @@ export class StudentRepository implements IStudentRepository {
   async findByUserId (userId: number): Promise<IStudent | undefined> {
     return await this.repo.findOne({ where: { userId }}) as IStudent | undefined
   }
+
+  async findById (studentId: number): Promise<IStudent | undefined> {
+    return await this.repo.findByPk(studentId) as IStudent | undefined
+  }
 }
