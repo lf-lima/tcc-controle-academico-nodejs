@@ -59,6 +59,10 @@ export default async function populateProfilesAndPermissions (): Promise<void> {
     {
       name: 'deleteUploadedFile',
       description: 'accept delete uploaded file'
+    },
+    {
+      name: 'getAllStudentsByInstitutionId',
+      description: 'accept get all students by institution id'
     }
   ] as any
 
@@ -82,7 +86,8 @@ export default async function populateProfilesAndPermissions (): Promise<void> {
         'getAllSubjects',
         'getSubjectById',
         'getAllUploadedFilesBySubjectId',
-        'deleteUploadedFile'
+        'deleteUploadedFile',
+        'getAllStudentsByInstitutionId'
       ]
     },
     {
@@ -98,7 +103,8 @@ export default async function populateProfilesAndPermissions (): Promise<void> {
         'getSubjectById',
         'getAllUploadedFilesBySubjectId',
         'downloadFileFromSubject',
-        'deleteUploadedFile'
+        'deleteUploadedFile',
+        'getAllStudentsByInstitutionId'
       ]
     },
     {
