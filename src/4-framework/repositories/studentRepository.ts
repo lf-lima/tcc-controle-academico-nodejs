@@ -17,4 +17,8 @@ export class StudentRepository implements IStudentRepository {
   async findById (studentId: number): Promise<IStudent | undefined> {
     return await this.repo.findByPk(studentId) as IStudent | undefined
   }
+
+  async findAllByInstitutionId (institutionId: number): Promise<IStudent[]> {
+    return await this.repo.findAll({ where: { institutionId } })
+  }
 }

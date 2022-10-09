@@ -6,7 +6,7 @@ import {
 } from '#gateway/modules/http/httpResponse'
 import { IBaseOperation } from '#gateway/operations/base/iBaseOperation'
 import { InputUploadFileToSubject } from '#gateway/serializers/subject/inputUploadFileToSubject'
-import { OutputUploadFileToSubject } from '#gateway/serializers/subject/OutputUploadFileToSubject'
+import { OutputUploadFileToSubject } from '#gateway/serializers/subject/outputUploadFileToSubject'
 
 export class UploadFileToSubjectOperation implements IBaseOperation<InputUploadFileToSubject, OutputUploadFileToSubject> {
   private readonly uploadFileToSubjectUseCase!: UploadFileToSubjectUseCase

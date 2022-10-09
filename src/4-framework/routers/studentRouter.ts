@@ -6,6 +6,9 @@ import { CreateStudentUseCase } from '#business/useCases/student/createStudentUs
 import { StudentRepository } from '#framework/repositories/studentRepository'
 import { CreateUserUseCase } from '#business/useCases/user/createUserUseCase'
 import { ProfileRepository } from '#framework/repositories/profileRepository'
+import { GetAllStudentsByInstitutionIdOperation } from '#gateway/operations/student/getAllStudentsByInstitutionIdOperation'
+import { InputGetAllStudentsByInstitutionId } from '#gateway/serializers/student/inputGetAllStudentsByInstitutionId'
+import { GetAllStudentsByInstitutionIdUseCase } from '#business/useCases/student/getAllStudentsByInstitutionIdUseCase'
 
 export class StudentRouter extends ExpressRouter {
   constructor () {
@@ -26,6 +29,23 @@ export class StudentRouter extends ExpressRouter {
         ),
         permissions: [
           'createStudent'
+        ]
+      },
+      {
+        routeName: 'getAllStudentsByInstitutionId',
+        method: 'get',
+        routePath: '',
+        input: InputGetAllStudentsByInstitutionId,
+        inputNormalizer: ({ body }) => new InputGetAllStudentsByInstitutionId({
+          institutionId: Number(body.tokenPayload.institutionId || body.institutionId)
+        }),
+        operation: new GetAllStudentsByInstitutionIdOperation(
+          new GetAllStudentsByInstitutionIdUseCase(
+            new StudentRepository()
+          )
+        ),
+        permissions: [
+          'getAllStudentsByInstitutionId'
         ]
       }
     ])
