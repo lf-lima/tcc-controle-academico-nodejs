@@ -6,6 +6,8 @@ import { IMainExpressRouter, MainExpressRouter } from '#framework/routers/expres
 import { IDBConnection } from '#framework/database/base/iConnection'
 import { Seeder } from '#framework/migrations/seeder'
 import { env } from '#business/const/environments'
+import { createServer } from 'http'
+import { Server } from 'socket.io'
 
 export class ExpressServer<TDBConfig> {
   private app: express.Application
@@ -26,10 +28,36 @@ export class ExpressServer<TDBConfig> {
     await this.database()
     await this.migrations()
 
+    const httpServer = createServer(this.app)
+    const io = new Server(httpServer, { cors: { origin: '*' } })
+
+    const messages: any[] = []
+
+    io.on('connection', socket => {
+      socket.emit('message:render-olds', messages)
+
+      let username = ''
+      socket.on('user:enter', (_username) => {
+        username = _username
+        console.log(`New user: ${username}`)
+      })
+
+      socket.on('message:send', (message) => {
+        const messageData = {
+          username,
+          message
+        }
+
+        messages.push(messageData)
+
+        socket.broadcast.emit('message:new', messageData)
+      })
+    })
+
     this.middlewares()
     this.routes()
 
-    this.app.listen(env.PORT || port, () => {
+    httpServer.listen(env.PORT || port, () => {
       console.log('SERVER ON')
       console.log(`Listen in http://localhost:${port}\n`)
     })

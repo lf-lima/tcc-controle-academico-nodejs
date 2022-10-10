@@ -6,7 +6,7 @@ import {
 } from '#gateway/modules/http/httpResponse'
 import { IBaseOperation } from '#gateway/operations/base/iBaseOperation'
 import { InputDownloadFileFromSubject } from '#gateway/serializers/subject/inputDownloadFileOfSubject'
-import { OutputDownloadFileFromSubject } from '#gateway/serializers/subject/outputDownloadFileOfSubject'
+import { OutputDownloadFileFromSubject } from '#gateway/serializers/subject/outputDownloadFileOfSubject2'
 
 export class DownloadFileFromSubjectOperation implements IBaseOperation<InputDownloadFileFromSubject, OutputDownloadFileFromSubject> {
   private readonly downloadFileFromSubjectUseCase!: DownloadFileFromSubjectUseCase
