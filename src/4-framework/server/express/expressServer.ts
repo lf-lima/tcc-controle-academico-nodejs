@@ -31,7 +31,7 @@ export class ExpressServer<TDBConfig> {
     const httpServer = createServer(this.app)
     const io = new Server(httpServer, { cors: { origin: '*' } })
 
-    const messages: any[] = []
+    const messages: any[] = ['Testando mensagem']
 
     io.on('connection', socket => {
       socket.emit('message:render-olds', messages)
