@@ -3,5 +3,6 @@ export interface TokenPayload {
   institutionId?: number
   professorId?: number
   studentId?: number
+  username: string
   permissions: string[]
 }

@@ -79,6 +79,7 @@ export class LoginUseCase implements IBaseUseCase<LoginInputDto, LoginOutputDto>
 
     if (student) {
       tokenPayload = {
+        username: student.name,
         institutionId: student.institutionId,
         studentId: student.id,
         userId,
@@ -86,6 +87,7 @@ export class LoginUseCase implements IBaseUseCase<LoginInputDto, LoginOutputDto>
       }
     } else if (professor) {
       tokenPayload = {
+        username: professor.name,
         institutionId: professor.institutionId,
         professorId: professor.id,
         userId,
@@ -93,12 +95,14 @@ export class LoginUseCase implements IBaseUseCase<LoginInputDto, LoginOutputDto>
       }
     } else if (institution) {
       tokenPayload = {
+        username: institution.name,
         institutionId: institution?.id as number,
         userId,
         permissions
       }
     } else {
       tokenPayload = {
+        username: 'Administrador',
         userId,
         permissions
       }
