@@ -15,6 +15,6 @@ export class SequelizeConnection implements ISequelizeConnection {
   public async connect (): Promise<void> {
     const sequelize = new Sequelize(this.config.options)
 
-    await sequelize.sync({ force: env.ENV === 'local' })
+    await sequelize.sync({ force: env.ENV === 'asdfsd' })
   }
 }
