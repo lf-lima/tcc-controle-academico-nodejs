@@ -27,4 +27,7 @@ export default class Subject extends BaseModel<Subject> implements ISubject {
 
   @BelongsTo(() => Institution)
   institution?: Institution
+
+  @BelongsTo(() => Professor)
+  professor?: Professor
 }
