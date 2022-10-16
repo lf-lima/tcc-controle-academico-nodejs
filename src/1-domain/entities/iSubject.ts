@@ -1,4 +1,5 @@
 import { IBaseEntity } from '#domain/entities/iBaseEntity'
+import { IProfessor } from '#domain/entities/iProfessor'
 
 export interface ISubject extends IBaseEntity {
   institutionId: number
@@ -6,4 +7,5 @@ export interface ISubject extends IBaseEntity {
   professorId: number
   subjectName: string
   subjectDescription: string
+  professor?: IProfessor
 }

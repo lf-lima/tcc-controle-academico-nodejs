@@ -2,6 +2,7 @@ import { PartialBy } from '#business/utils/partialBy'
 import Subject from '#framework/models/mysql/subject.model'
 import { ISubject } from '#domain/entities/iSubject'
 import { ISubjectRepository } from '#business/repositories/iSubjectRepository'
+import Professor from '#framework/models/mysql/professor.model'
 
 export class SubjectRepository implements ISubjectRepository {
   private readonly repo: typeof Subject = Subject
@@ -15,14 +16,23 @@ export class SubjectRepository implements ISubjectRepository {
   }
 
   async findAllByInstitutionId (institutionId: number): Promise<ISubject[]> {
-    return await this.repo.findAll({ where: { institutionId } })
+    return await this.repo.findAll({
+      include: [Professor],
+      where: { institutionId }
+    })
   }
 
   async findAllByProfessorId (professorId: number): Promise<ISubject[]> {
-    return await this.repo.findAll({ where: { professorId } })
+    return await this.repo.findAll({
+      include: [Professor],
+      where: { professorId }
+    })
   }
 
   async findAllByCourseId (courseId: number): Promise<ISubject[]> {
-    return await this.repo.findAll({ where: { courseId } })
+    return await this.repo.findAll({
+      include: [Professor],
+      where: { courseId }
+    })
   }
 }
