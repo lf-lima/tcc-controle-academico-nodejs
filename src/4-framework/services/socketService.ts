@@ -13,29 +13,29 @@ export class SocketService implements ISocketService {
     private io: Server
   ) { }
 
-  init (): void {
-    const socketsOnline: Socket[] = []
-    const usersOnline: ChatUser[] = []
-    const chatsActive: {
-      chatId: string
-      participants: ChatUser[]
-      messages: {
-        user: ChatUser
-        message: string
-      }[]
-    }[] = []
+  private socketsOnline: Socket[] = []
+  private usersOnline: ChatUser[] = []
+  private chatsActive: {
+    chatId: string
+    participants: ChatUser[]
+    messages: {
+      user: ChatUser
+      message: string
+    }[]
+  }[] = []
 
+  init (): void {
     this.io.on('connection', socket => {
       let currentUser: ChatUser
       console.log('a user connected')
-      socketsOnline.push(socket)
+      this.socketsOnline.push(socket)
 
-      this.io.emit('users online', usersOnline)
+      this.io.emit('users online', this.usersOnline)
 
       socket.on('login', (data) => {
         console.log(`a user ${data.username} connected`)
 
-        const existingUser = usersOnline.find(u => u.userId === data.userId)
+        const existingUser = this.usersOnline.find(u => u.userId === data.userId)
 
         if (!existingUser) {
           currentUser = {
@@ -44,45 +44,26 @@ export class SocketService implements ISocketService {
             userId: data.userId
           }
 
-          usersOnline.push(currentUser)
+          this.usersOnline.push(currentUser)
         }
 
-        this.io.emit('users online', usersOnline)
+        this.io.emit('users online', this.usersOnline)
       })
 
       socket.on('disconnect', () => {
-        console.log(`user ${usersOnline.find(u => u.socketId === socket.id)?.username} disconnected`)
+        console.log(`user ${this.usersOnline.find(u => u.socketId === socket.id)?.username} disconnected`)
 
-        const i = usersOnline.map((u) => u.socketId).indexOf(socket.id)
-        console.log(i)
-        console.log(usersOnline)
-        usersOnline.splice(i, 1)
-        const j = socketsOnline.map((s) => s.id).indexOf(socket.id)
+        const j = this.socketsOnline.map((s) => s.id).indexOf(socket.id)
         console.log(j)
-        socketsOnline.splice(j, 1)
+        this.socketsOnline.splice(j, 1)
 
-        const chatsActiveCurrentUser = chatsActive.filter(c => c.participants.map(p => p.socketId).find(socketId => socketId === socket.id))
-        for (const chatActive of chatsActiveCurrentUser) {
-          const k = chatsActive.map(c => c.chatId).indexOf(chatActive.chatId)
-          chatsActive.splice(k, 1)
-
-          for (const { socketId } of chatActive.participants) {
-            const chatsActiveCurrentUser = chatsActive.filter(c => c.participants.find(p => p.socketId === socketId))
-
-            let position = 1
-            const chatsWithPosition = chatsActiveCurrentUser.map(chat => ({ ...chat, position: position++ }))
-
-            this.io.to(socketId).emit('chats active', chatsWithPosition)
-          }
-
-          this.io.in(chatActive.chatId).socketsLeave(chatActive.chatId)
-        }
-
-        this.io.emit('users online', usersOnline)
+        this.logout(socket)
       })
 
+      socket.on('logout', () => this.logout(socket))
+
       socket.on('new chat', ({ destinyUserId, destinySocketId }) => {
-        const existingChat = chatsActive.find(chat => {
+        const existingChat = this.chatsActive.find(chat => {
           return chat.participants.find(p => p.socketId === destinySocketId)
             && chat.participants.find(p => p.socketId === currentUser.socketId)
         })
@@ -91,8 +72,8 @@ export class SocketService implements ISocketService {
           return
         }
 
-        const destinySocket = socketsOnline.find((s) => s.id === destinySocketId)
-        const destinyUser = usersOnline.find(u => u.userId === destinyUserId)
+        const destinySocket = this.socketsOnline.find((s) => s.id === destinySocketId)
+        const destinyUser = this.usersOnline.find(u => u.userId === destinyUserId)
 
         if (destinySocket && destinyUser) {
           const chatId = uuidv4()
@@ -110,14 +91,14 @@ export class SocketService implements ISocketService {
             participants.pop()
           }
 
-          chatsActive.push({
+          this.chatsActive.push({
             chatId,
             messages: [],
             participants
           })
 
           for (const userId of [socket.id, destinyUserId]) {
-            const chatsActiveCurrentUser = chatsActive.filter(c => c.participants.find(p => p.socketId === userId))
+            const chatsActiveCurrentUser = this.chatsActive.filter(c => c.participants.find(p => p.socketId === userId))
 
             let position = 1
             const chatsWithPosition = chatsActiveCurrentUser.map(chat => ({ ...chat, position: position++ }))
@@ -128,14 +109,14 @@ export class SocketService implements ISocketService {
       })
 
       socket.on('send message', ({ chatId, message }) => {
-        const i = chatsActive.map((c) => c.chatId).indexOf(chatId)
-        chatsActive[i].messages.push({
+        const i = this.chatsActive.map((c) => c.chatId).indexOf(chatId)
+        this.chatsActive[i].messages.push({
           user: currentUser,
           message
         })
 
-        for (const participant of chatsActive[i].participants) {
-          const chatsActiveCurrentUser = chatsActive.filter(c => c.participants.find(p => p.socketId === participant.socketId))
+        for (const participant of this.chatsActive[i].participants) {
+          const chatsActiveCurrentUser = this.chatsActive.filter(c => c.participants.find(p => p.socketId === participant.socketId))
 
           let position = 1
           const chatsWithPosition = chatsActiveCurrentUser.map(chat => ({ ...chat, position: position++ }))
@@ -144,5 +125,31 @@ export class SocketService implements ISocketService {
         }
       })
     })
+  }
+
+  private logout (socket: Socket): void {
+    const i = this.usersOnline.map((u) => u.socketId).indexOf(socket.id)
+    console.log(i)
+    console.log(this.usersOnline)
+    this.usersOnline.splice(i, 1)
+
+    const chatsActiveCurrentUser = this.chatsActive.filter(c => c.participants.map(p => p.socketId).find(socketId => socketId === socket.id))
+    for (const chatActive of chatsActiveCurrentUser) {
+      const k = this.chatsActive.map(c => c.chatId).indexOf(chatActive.chatId)
+      this.chatsActive.splice(k, 1)
+
+      for (const { socketId } of chatActive.participants) {
+        const chatsActiveCurrentUser = this.chatsActive.filter(c => c.participants.find(p => p.socketId === socketId))
+
+        let position = 1
+        const chatsWithPosition = chatsActiveCurrentUser.map(chat => ({ ...chat, position: position++ }))
+
+        this.io.to(socketId).emit('chats active', chatsWithPosition)
+      }
+
+      this.io.in(chatActive.chatId).socketsLeave(chatActive.chatId)
+    }
+
+    this.io.emit('users online', this.usersOnline)
   }
 }
