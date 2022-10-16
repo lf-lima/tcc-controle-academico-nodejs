@@ -45,9 +45,9 @@ export class SocketService implements ISocketService {
           }
 
           usersOnline.push(currentUser)
-
-          this.io.emit('users online', usersOnline)
         }
+
+        this.io.emit('users online', usersOnline)
       })
 
       socket.on('disconnect', () => {
