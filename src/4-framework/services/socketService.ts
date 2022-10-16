@@ -2,7 +2,7 @@ import { ISocketService } from '#business/services/iSocketService'
 import { Server, Socket } from 'socket.io'
 import { v4 as uuidv4 } from 'uuid'
 
-interface User {
+interface ChatUser {
   userId: number
   socketId: string
   username: string
@@ -15,18 +15,18 @@ export class SocketService implements ISocketService {
 
   init (): void {
     const socketsOnline: Socket[] = []
-    const usersOnline: User[] = []
+    const usersOnline: ChatUser[] = []
     const chatsActive: {
       chatId: string
-      participants: User[]
+      participants: ChatUser[]
       messages: {
-        user: User
+        user: ChatUser
         message: string
       }[]
     }[] = []
 
     this.io.on('connection', socket => {
-      let currentUser: User
+      let currentUser: ChatUser
       console.log('a user connected')
       socketsOnline.push(socket)
 
