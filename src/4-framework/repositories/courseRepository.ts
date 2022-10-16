@@ -11,6 +11,6 @@ export class CourseRepository implements ICourseRepository {
   }
 
   async findAllByInstitutionId (institutionId: number): Promise<ICourse[]> {
-    return await this.repo.findAll({ where: { institutionId }})
+    return await this.repo.findAll({ where: { institutionId } })
   }
 }
