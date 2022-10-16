@@ -82,6 +82,15 @@ export class SocketService implements ISocketService {
       })
 
       socket.on('new chat', ({ destinyUserId, destinySocketId }) => {
+        const existingChat = chatsActive.find(chat => {
+          return chat.participants.find(p => p.socketId === destinySocketId)
+            && chat.participants.find(p => p.socketId === currentUser.socketId)
+        })
+
+        if (existingChat) {
+          return
+        }
+
         const destinySocket = socketsOnline.find((s) => s.id === destinySocketId)
         const destinyUser = usersOnline.find(u => u.userId === destinyUserId)
 
@@ -91,13 +100,20 @@ export class SocketService implements ISocketService {
           socket.join(chatId)
           destinySocket?.join(chatId)
 
+          const participants = [
+            currentUser,
+            destinyUser
+          ]
+
+
+          if (destinySocketId === currentUser.socketId) {
+            participants.pop()
+          }
+
           chatsActive.push({
             chatId,
             messages: [],
-            participants: [
-              currentUser,
-              destinyUser
-            ]
+            participants
           })
 
           for (const userId of [socket.id, destinyUserId]) {
