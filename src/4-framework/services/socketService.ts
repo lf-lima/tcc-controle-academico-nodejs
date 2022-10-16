@@ -69,7 +69,7 @@ export class SocketService implements ISocketService {
           for (const { socketId } of chatActive.participants) {
             const chatsActiveCurrentUser = chatsActive.filter(c => c.participants.find(p => p.socketId === socketId))
 
-            let position = 0
+            let position = 1
             const chatsWithPosition = chatsActiveCurrentUser.map(chat => ({ ...chat, position: position++ }))
 
             this.io.to(socketId).emit('chats active', chatsWithPosition)
@@ -103,7 +103,7 @@ export class SocketService implements ISocketService {
           for (const userId of [socket.id, destinyUserId]) {
             const chatsActiveCurrentUser = chatsActive.filter(c => c.participants.find(p => p.socketId === userId))
 
-            let position = 0
+            let position = 1
             const chatsWithPosition = chatsActiveCurrentUser.map(chat => ({ ...chat, position: position++ }))
 
             this.io.to(userId).emit('chats active', chatsWithPosition)
@@ -121,7 +121,7 @@ export class SocketService implements ISocketService {
         for (const participant of chatsActive[i].participants) {
           const chatsActiveCurrentUser = chatsActive.filter(c => c.participants.find(p => p.socketId === participant.socketId))
 
-          let position = 0
+          let position = 1
           const chatsWithPosition = chatsActiveCurrentUser.map(chat => ({ ...chat, position: position++ }))
 
           this.io.to(participant.socketId).emit('chats active', chatsWithPosition)
