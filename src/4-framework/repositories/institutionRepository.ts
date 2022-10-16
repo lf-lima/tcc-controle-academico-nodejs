@@ -2,6 +2,7 @@ import { IInstitutionRepository } from '#business/repositories/iInstitutionRepos
 import Institution from '#framework/models/mysql/institution.model'
 import { IInstitution } from '#domain/entities/iInstitution'
 import { PartialBy } from '#business/utils/partialBy'
+import User from '#framework/models/mysql/user.model'
 
 export class InstitutionRepository implements IInstitutionRepository {
   private readonly repo = Institution
@@ -15,6 +16,8 @@ export class InstitutionRepository implements IInstitutionRepository {
   }
 
   async findAll (): Promise<IInstitution[]> {
-    return await this.repo.findAll() as IInstitution[]
+    return await this.repo.findAll({
+      include: [User],
+    }) as IInstitution[]
   }
 }

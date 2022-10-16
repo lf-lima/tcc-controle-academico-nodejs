@@ -2,6 +2,7 @@ import { PartialBy } from '#business/utils/partialBy'
 import { IProfessorRepository } from '#business/repositories/iProfessorRepository'
 import { IProfessor } from '#domain/entities/iProfessor'
 import Professor from '#framework/models/mysql/professor.model'
+import User from '#framework/models/mysql/user.model'
 
 export class ProfessorRepository implements IProfessorRepository {
   private readonly repo: typeof Professor = Professor
@@ -19,6 +20,9 @@ export class ProfessorRepository implements IProfessorRepository {
   }
 
   async findAllByInstitutionId (institutionId: number): Promise<IProfessor[]> {
-    return await this.repo.findAll({ where: { institutionId } }) as IProfessor[]
+    return await this.repo.findAll({
+      include: [User],
+      where: { institutionId }
+    }) as IProfessor[]
   }
 }
