@@ -40,13 +40,14 @@ export class SocketService implements ISocketService {
           currentUser = {
             socketId: socket.id,
             username: data.username,
-            userId: data.userId
+            userId: data.userId,
+            institutionId: data.institutionId
           }
 
           this.usersOnline.push(currentUser)
         }
 
-        this.io.emit('users online', this.usersOnline.filter(user => user.institutionId === data.institutionId || !user.institutionId))
+        this.io.emit('users online', this.usersOnline.filter(user => user.institutionId === currentUser.institutionId || !user.institutionId))
       })
 
       socket.on('disconnect', () => {
