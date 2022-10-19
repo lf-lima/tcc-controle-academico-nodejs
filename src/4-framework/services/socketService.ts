@@ -103,14 +103,6 @@ export class SocketService implements ISocketService {
 
 
           this.refreshChatsForParticipants(participants)
-          // for (const userId of [socket.id, destinyUserId]) {
-          //   const chatsActiveCurrentUser = this.chatsActive.filter(c => c.participants.find(p => p.socketId === userId))
-
-          //   let position = 1
-          //   const chatsWithPosition = chatsActiveCurrentUser.map(chat => ({ ...chat, position: position++ }))
-
-          //   this.io.to(userId).emit('chats active', chatsWithPosition)
-          // }
         }
       })
 
@@ -134,14 +126,6 @@ export class SocketService implements ISocketService {
         })
 
         this.refreshChatsForParticipants(this.chatsActive[i].participants)
-        // for (const participant of this.chatsActive[i].participants) {
-        //   const chatsActiveCurrentUser = this.chatsActive.filter(c => c.participants.find(p => p.socketId === participant.socketId))
-
-        //   let position = 1
-        //   const chatsWithPosition = chatsActiveCurrentUser.map(chat => ({ ...chat, position: position++ }))
-
-        //   this.io.to(participant.socketId).emit('chats active', chatsWithPosition)
-        // }
       })
     })
   }
@@ -158,14 +142,6 @@ export class SocketService implements ISocketService {
       this.chatsActive.splice(k, 1)
 
       this.refreshChatsForParticipants(chatActive.participants)
-      // for (const { socketId } of chatActive.participants) {
-      //   const chatsActiveCurrentUser = this.chatsActive.filter(c => c.participants.find(p => p.socketId === socketId))
-
-      //   let position = 1
-      //   const chatsWithPosition = chatsActiveCurrentUser.map(chat => ({ ...chat, position: position++ }))
-
-      //   this.io.to(socketId).emit('chats active', chatsWithPosition)
-      // }
 
       this.io.in(chatActive.chatId).socketsLeave(chatActive.chatId)
     }
