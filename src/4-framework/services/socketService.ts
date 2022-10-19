@@ -120,9 +120,9 @@ export class SocketService implements ISocketService {
         if (indexOfChat !== -1) {
           const participants = this.chatsActive[indexOfChat].participants
 
-          this.refreshChatsForParticipants(participants)
-
           this.chatsActive.splice(indexOfChat, 1)
+
+          this.refreshChatsForParticipants(participants)
         }
       })
 
