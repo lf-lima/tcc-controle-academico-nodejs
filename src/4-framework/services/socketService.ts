@@ -101,7 +101,8 @@ export class SocketService implements ISocketService {
             participants
           })
 
-          this.refreshChatsForParticipants([socket.id, destinyUserId])
+
+          this.refreshChatsForParticipants(participants)
           // for (const userId of [socket.id, destinyUserId]) {
           //   const chatsActiveCurrentUser = this.chatsActive.filter(c => c.participants.find(p => p.socketId === userId))
 
