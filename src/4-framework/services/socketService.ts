@@ -63,13 +63,17 @@ export class SocketService implements ISocketService {
       socket.on('logout', () => this.logout(socket))
 
       socket.on('new chat', ({ destinyUserId, destinySocketId }) => {
-        const existingChat = this.chatsActive.find(chat => {
-          return chat.participants.find(p => p.socketId === destinySocketId)
-            && chat.participants.find(p => p.socketId === currentUser.socketId)
-        })
+        const isMeToMeChat = destinyUserId === currentUser.userId
 
-        if (existingChat) {
-          return
+        if (!isMeToMeChat) {
+          const existingChat = this.chatsActive.find(chat => {
+            return chat.participants.find(p => p.socketId === destinySocketId)
+              && chat.participants.find(p => p.socketId === currentUser.socketId)
+          })
+
+          if (existingChat) {
+            return
+          }
         }
 
         const destinySocket = this.socketsOnline.find((s) => s.id === destinySocketId)
