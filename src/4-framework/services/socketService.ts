@@ -116,6 +116,17 @@ export class SocketService implements ISocketService {
         const indexOfChat = this.chatsActive.map(c => c.chatId).indexOf(chatId)
 
         if (indexOfChat !== -1) {
+          const participants = this.chatsActive[indexOfChat].participants
+
+          for (const participant of participants) {
+            const chatsActiveCurrentUser = this.chatsActive.filter(c => c.participants.find(p => p.socketId === participant.socketId))
+
+            let position = 1
+            const chatsWithPosition = chatsActiveCurrentUser.map(chat => ({ ...chat, position: position++ }))
+
+            this.io.to(participant.socketId).emit('chats active', chatsWithPosition)
+          }
+
           this.chatsActive.splice(indexOfChat, 1)
         }
       })
