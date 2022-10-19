@@ -6,6 +6,7 @@ interface ChatUser {
   userId: number
   socketId: string
   username: string
+  institutionId?: number
 }
 
 export class SocketService implements ISocketService {
@@ -30,8 +31,6 @@ export class SocketService implements ISocketService {
       console.log('a user connected')
       this.socketsOnline.push(socket)
 
-      this.io.emit('users online', this.usersOnline)
-
       socket.on('login', (data) => {
         console.log(`a user ${data.username} connected`)
 
@@ -47,7 +46,7 @@ export class SocketService implements ISocketService {
           this.usersOnline.push(currentUser)
         }
 
-        this.io.emit('users online', this.usersOnline)
+        this.io.emit('users online', this.usersOnline.filter(user => user.institutionId === data.institutionId || !user.institutionId))
       })
 
       socket.on('disconnect', () => {
