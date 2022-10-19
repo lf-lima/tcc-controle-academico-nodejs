@@ -24,6 +24,7 @@ export class SocketService implements ISocketService {
       message: string
     }[]
   }[] = []
+  private institutionsRooms: string[] = []
 
   init (): void {
     this.io.on('connection', socket => {
@@ -47,7 +48,15 @@ export class SocketService implements ISocketService {
           this.usersOnline.push(currentUser)
 
           if (currentUser.institutionId) {
-            socket.join(`institution-${currentUser.institutionId}`)
+            const roomName = `institution-${currentUser.institutionId}`
+
+            const existingRoom = this.institutionsRooms.find(room => room === roomName)
+
+            if (!existingRoom) {
+              this.institutionsRooms.push(roomName)
+            }
+
+            socket.join(roomName)
           }
         }
 
@@ -150,7 +159,9 @@ export class SocketService implements ISocketService {
       this.io.in(chatActive.chatId).socketsLeave(chatActive.chatId)
     }
 
-    socket.leave(`institution-${currentUser.institutionId}`)
+    if (currentUser.institutionId) {
+      socket.leave(`institution-${currentUser.institutionId}`)
+    }
 
     this.refreshUsersOnline(currentUser)
   }
@@ -173,6 +184,19 @@ export class SocketService implements ISocketService {
       this.io.to(adminUser.socketId).emit('users online', this.usersOnline)
     }
 
-    this.io.to(`institution-${currentUser.institutionId}`).emit('users online', this.usersOnline.filter(user => user.institutionId === currentUser.institutionId || !user.institutionId))
+    if (currentUser.institutionId) {
+      this.io.to(`institution-${currentUser.institutionId}`).emit('users online', this.usersOnline.filter(user => user.institutionId === currentUser.institutionId || !user.institutionId))
+    } else {
+      const institutionRooms = this.institutionsRooms.map(room => {
+        const [,institutionIdString] = room.split('-')
+        const institutionId = Number(institutionIdString)
+
+        return { roomName: room, institutionId }
+      })
+
+      for (const institutionRoom of institutionRooms) {
+        this.io.to(institutionRoom.roomName).emit('users online', this.usersOnline.filter(user => user.institutionId === institutionRoom.institutionId || !user.institutionId))
+      }
+    }
   }
 }
