@@ -45,13 +45,13 @@ export class SocketService implements ISocketService {
           }
 
           this.usersOnline.push(currentUser)
+
+          if (currentUser.institutionId) {
+            socket.join(`institution-${currentUser.institutionId}`)
+          }
         }
 
-        if (!currentUser.institutionId) {
-          this.io.emit('users online', this.usersOnline)
-        } else {
-          this.io.emit('users online', this.usersOnline.filter(user => user.institutionId === currentUser.institutionId || !user.institutionId))
-        }
+        this.refreshUsersOnline(currentUser)
       })
 
       socket.on('disconnect', () => {
@@ -61,10 +61,10 @@ export class SocketService implements ISocketService {
         console.log(j)
         this.socketsOnline.splice(j, 1)
 
-        this.logout(socket)
+        this.logout(socket, currentUser)
       })
 
-      socket.on('logout', () => this.logout(socket))
+      socket.on('logout', () => this.logout(socket, currentUser))
 
       socket.on('new chat', ({ destinyUserId, destinySocketId }) => {
         const isMeToMeChat = destinyUserId === currentUser.userId
@@ -134,7 +134,7 @@ export class SocketService implements ISocketService {
     })
   }
 
-  private logout (socket: Socket): void {
+  private logout (socket: Socket, currentUser: ChatUser): void {
     const i = this.usersOnline.map((u) => u.socketId).indexOf(socket.id)
     console.log(i)
     console.log(this.usersOnline)
@@ -150,7 +150,9 @@ export class SocketService implements ISocketService {
       this.io.in(chatActive.chatId).socketsLeave(chatActive.chatId)
     }
 
-    this.io.emit('users online', this.usersOnline)
+    socket.leave(`institution-${currentUser.institutionId}`)
+
+    this.refreshUsersOnline(currentUser)
   }
 
   private refreshChatsForParticipants (participants: ChatUser[]) {
@@ -162,5 +164,15 @@ export class SocketService implements ISocketService {
 
       this.io.to(participant.socketId).emit('chats active', chatsWithPosition)
     }
+  }
+
+  private refreshUsersOnline (currentUser: ChatUser) {
+    const adminUsers = this.usersOnline.filter(user => !user.institutionId)
+
+    for (const adminUser of adminUsers) {
+      this.io.to(adminUser.socketId).emit('users online', this.usersOnline)
+    }
+
+    this.io.to(`institution-${currentUser.institutionId}`).emit('users online', this.usersOnline.filter(user => user.institutionId === currentUser.institutionId || !user.institutionId))
   }
 }
