@@ -108,6 +108,14 @@ export class SocketService implements ISocketService {
         }
       })
 
+      socket.on('close chat', ({ chatId }) => {
+        const indexOfChat = this.chatsActive.map(c => c.chatId).indexOf(chatId)
+
+        if (indexOfChat !== -1) {
+          this.chatsActive.splice(indexOfChat, 1)
+        }
+      })
+
       socket.on('send message', ({ chatId, message }) => {
         const i = this.chatsActive.map((c) => c.chatId).indexOf(chatId)
         this.chatsActive[i].messages.push({
