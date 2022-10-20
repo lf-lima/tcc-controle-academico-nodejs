@@ -145,8 +145,6 @@ export class SocketService implements ISocketService {
 
   private logout (socket: Socket, currentUser: ChatUser): void {
     const i = this.usersOnline.map((u) => u.socketId).indexOf(socket.id)
-    console.log(i)
-    console.log(this.usersOnline)
     this.usersOnline.splice(i, 1)
 
     const chatsActiveCurrentUser = this.chatsActive.filter(c => c.participants.map(p => p.socketId).find(socketId => socketId === socket.id))
