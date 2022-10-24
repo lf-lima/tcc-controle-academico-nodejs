@@ -9,6 +9,15 @@ interface ChatUser {
   institutionId?: number
 }
 
+interface ActiveChat {
+  chatId: string
+  participants: ChatUser[]
+  messages: {
+    user: ChatUser
+    message: string
+  }[]
+}
+
 export class SocketService implements ISocketService {
   constructor (
     private io: Server
@@ -16,14 +25,7 @@ export class SocketService implements ISocketService {
 
   private socketsOnline: Socket[] = []
   private usersOnline: ChatUser[] = []
-  private chatsActive: {
-    chatId: string
-    participants: ChatUser[]
-    messages: {
-      user: ChatUser
-      message: string
-    }[]
-  }[] = []
+  private chatsActive: ActiveChat[]  = []
   private institutionsRooms: string[] = []
 
   init (): void {
@@ -78,15 +80,22 @@ export class SocketService implements ISocketService {
       socket.on('new chat', ({ destinyUserId, destinySocketId }) => {
         const isMeToMeChat = destinyUserId === currentUser.userId
 
-        if (!isMeToMeChat) {
-          const existingChat = this.chatsActive.find(chat => {
+        let existingChat: ActiveChat | undefined
+
+        if (isMeToMeChat) {
+          existingChat = this.chatsActive.find(chat => {
+            return chat.participants.length === 1 &&
+              chat.participants[0].socketId === destinySocketId
+          })
+        } else {
+          existingChat = this.chatsActive.find(chat => {
             return chat.participants.find(p => p.socketId === destinySocketId)
               && chat.participants.find(p => p.socketId === currentUser.socketId)
           })
+        }
 
-          if (existingChat) {
-            return
-          }
+        if (existingChat) {
+          return
         }
 
         const destinySocket = this.socketsOnline.find((s) => s.id === destinySocketId)
