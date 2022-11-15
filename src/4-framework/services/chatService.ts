@@ -12,10 +12,10 @@ export class ChatService implements ISocketService {
   private usersOnline: ChatUser[] = []
   private chatsActive: ActiveChat[]  = []
   private institutionsRooms: string[] = []
+  private currentUser!: ChatUser
 
   init (): void {
     this.io.on('connection', socket => {
-      let currentUser: ChatUser
       console.log('a user connected')
       this.socketsOnline.push(socket)
 
@@ -25,17 +25,17 @@ export class ChatService implements ISocketService {
         const existingUser = this.usersOnline.find(u => u.userId === data.userId)
 
         if (!existingUser) {
-          currentUser = {
+          this.currentUser = {
             socketId: socket.id,
             username: data.username,
             userId: data.userId,
             institutionId: data.institutionId
           }
 
-          this.usersOnline.push(currentUser)
+          this.usersOnline.push(this.currentUser)
 
-          if (currentUser.institutionId) {
-            const roomName = `institution-${currentUser.institutionId}`
+          if (this.currentUser.institutionId) {
+            const roomName = `institution-${this.currentUser.institutionId}`
 
             const existingRoom = this.institutionsRooms.find(room => room === roomName)
 
@@ -47,7 +47,7 @@ export class ChatService implements ISocketService {
           }
         }
 
-        this.refreshUsersOnline(currentUser)
+        this.refreshUsersOnline()
       })
 
       socket.on('disconnect', () => {
@@ -57,13 +57,13 @@ export class ChatService implements ISocketService {
         console.log(j)
         this.socketsOnline.splice(j, 1)
 
-        this.logout(socket, currentUser)
+        this.logout(socket)
       })
 
-      socket.on('logout', () => this.logout(socket, currentUser))
+      socket.on('logout', () => this.logout(socket))
 
       socket.on('new chat', ({ destinyUserId, destinySocketId }) => {
-        const isMeToMeChat = destinyUserId === currentUser.userId
+        const isMeToMeChat = destinyUserId === this.currentUser.userId
 
         let existingChat: ActiveChat | undefined
 
@@ -75,7 +75,7 @@ export class ChatService implements ISocketService {
         } else {
           existingChat = this.chatsActive.find(chat => {
             return chat.participants.find(p => p.socketId === destinySocketId)
-              && chat.participants.find(p => p.socketId === currentUser.socketId)
+              && chat.participants.find(p => p.socketId === this.currentUser.socketId)
           })
         }
 
@@ -93,12 +93,12 @@ export class ChatService implements ISocketService {
           destinySocket?.join(chatId)
 
           const participants = [
-            currentUser,
+            this.currentUser,
             destinyUser
           ]
 
 
-          if (destinySocketId === currentUser.socketId) {
+          if (destinySocketId === this.currentUser.socketId) {
             participants.pop()
           }
 
@@ -128,7 +128,7 @@ export class ChatService implements ISocketService {
       socket.on('send message', ({ chatId, message }) => {
         const i = this.chatsActive.map((c) => c.chatId).indexOf(chatId)
         this.chatsActive[i].messages.push({
-          user: currentUser,
+          user: this.currentUser,
           message
         })
 
@@ -137,7 +137,7 @@ export class ChatService implements ISocketService {
     })
   }
 
-  private logout (socket: Socket, currentUser: ChatUser): void {
+  private logout (socket: Socket): void {
     const i = this.usersOnline.map((u) => u.socketId).indexOf(socket.id)
     this.usersOnline.splice(i, 1)
 
@@ -151,11 +151,13 @@ export class ChatService implements ISocketService {
       this.io.in(chatActive.chatId).socketsLeave(chatActive.chatId)
     }
 
-    if (currentUser.institutionId) {
-      socket.leave(`institution-${currentUser.institutionId}`)
+    if (this.currentUser?.institutionId) {
+      socket.leave(`institution-${this.currentUser.institutionId}`)
     }
 
-    this.refreshUsersOnline(currentUser)
+    this.refreshUsersOnline()
+
+    this.currentUser = {} as any
   }
 
   private refreshChatsForParticipants (participants: ChatUser[]) {
@@ -171,15 +173,19 @@ export class ChatService implements ISocketService {
     }
   }
 
-  private refreshUsersOnline (currentUser: ChatUser) {
+  private refreshUsersOnline () {
     const adminUsers = this.usersOnline.filter(user => !user.institutionId)
 
     for (const adminUser of adminUsers) {
       this.io.to(adminUser.socketId).emit('users online', this.usersOnline)
     }
 
-    if (currentUser.institutionId) {
-      this.io.to(`institution-${currentUser.institutionId}`).emit('users online', this.usersOnline.filter(user => user.institutionId === currentUser.institutionId || !user.institutionId))
+    if (this.currentUser?.institutionId) {
+      this.io.to(`institution-${this.currentUser.institutionId}`)
+        .emit(
+          'users online',
+          this.usersOnline.filter(user => user.institutionId === this.currentUser?.institutionId || !user.institutionId)
+        )
     } else {
       const institutionRooms = this.institutionsRooms.map(room => {
         const [,institutionIdString] = room.split('-')
