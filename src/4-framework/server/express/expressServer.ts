@@ -8,7 +8,7 @@ import { Seeder } from '#framework/migrations/seeder'
 import { env } from '#business/const/environments'
 import { createServer, Server as HttpServer } from 'http'
 import { Server } from 'socket.io'
-import { SocketService } from '#framework/services/socketService'
+import { ChatService } from '#framework/services/chatService'
 
 export class ExpressServer<TDBConfig> {
   private app: express.Application
@@ -30,7 +30,7 @@ export class ExpressServer<TDBConfig> {
   async connection (): Promise<void> {
     const httpServer = createServer(this.app)
 
-    this.connectSocket(httpServer)
+    this.connectChat(httpServer)
     await this.database()
     await this.migrations()
 
@@ -63,8 +63,8 @@ export class ExpressServer<TDBConfig> {
     await this.seeder.run()
   }
 
-  connectSocket(httpServer: HttpServer) : void {
-    const socketService = new SocketService(new Server(httpServer, { cors: { origin: '*' } }))
-    socketService.init()
+  connectChat (httpServer: HttpServer) : void {
+    const chatService = new ChatService(new Server(httpServer, { cors: { origin: '*' } }))
+    chatService.init()
   }
 }

@@ -1,24 +1,9 @@
+import { ActiveChat, ChatUser } from '#business/dto/chat/chatDtos'
 import { ISocketService } from '#business/services/iSocketService'
 import { Server, Socket } from 'socket.io'
 import { v4 as uuidv4 } from 'uuid'
 
-interface ChatUser {
-  userId: number
-  socketId: string
-  username: string
-  institutionId?: number
-}
-
-interface ActiveChat {
-  chatId: string
-  participants: ChatUser[]
-  messages: {
-    user: ChatUser
-    message: string
-  }[]
-}
-
-export class SocketService implements ISocketService {
+export class ChatService implements ISocketService {
   constructor (
     private io: Server
   ) { }
@@ -175,7 +160,9 @@ export class SocketService implements ISocketService {
 
   private refreshChatsForParticipants (participants: ChatUser[]) {
     for (const participant of participants) {
-      const chatsActiveCurrentUser = this.chatsActive.filter(c => c.participants.find(p => p.socketId === participant.socketId))
+      const chatsActiveCurrentUser = this.chatsActive.filter(
+        c => c.participants.find(p => p.socketId === participant.socketId) && c.messages.length
+      )
 
       let position = 1
       const chatsWithPosition = chatsActiveCurrentUser.map(chat => ({ ...chat, position: position++ }))
