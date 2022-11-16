@@ -109,7 +109,7 @@ export class ChatService implements ISocketService {
           })
 
 
-          this.refreshChatsForParticipants(participants)
+          this.refreshChatsForParticipants([this.currentUser])
         }
       })
 
@@ -163,7 +163,7 @@ export class ChatService implements ISocketService {
   private refreshChatsForParticipants (participants: ChatUser[]) {
     for (const participant of participants) {
       const chatsActiveCurrentUser = this.chatsActive.filter(
-        c => c.participants.find(p => p.socketId === participant.socketId) && c.messages.length
+        c => c.participants.find(p => p.socketId === participant.socketId)
       )
 
       let position = 1

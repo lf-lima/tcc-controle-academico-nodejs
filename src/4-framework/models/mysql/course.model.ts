@@ -20,5 +20,5 @@ export default class Course extends BaseModel<Course> implements ICourse {
   institution?: Institution
 
   @HasMany(() => Subject)
-  subject?: Subject[]
+  subjects?: Subject[]
 }

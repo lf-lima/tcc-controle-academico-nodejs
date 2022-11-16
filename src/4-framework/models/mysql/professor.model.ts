@@ -25,5 +25,5 @@ export default class Professor extends BaseModel<Professor> implements IProfesso
   institution?: Institution
 
   @HasMany(() => Subject)
-  subject?: Subject
+  subjects?: Subject[]
 }
