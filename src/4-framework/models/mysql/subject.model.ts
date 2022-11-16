@@ -30,4 +30,7 @@ export default class Subject extends BaseModel<Subject> implements ISubject {
 
   @BelongsTo(() => Professor)
   professor?: Professor
+
+  @BelongsTo(() => Course)
+  course?: Course
 }
