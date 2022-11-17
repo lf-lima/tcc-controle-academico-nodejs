@@ -161,6 +161,8 @@ export class ChatService implements ISocketService {
   }
 
   private refreshChatsForParticipants (participants: ChatUser[]) {
+    console.log('refresh chat for participants:', participants)
+
     for (const participant of participants) {
       const chatsActiveCurrentUser = this.chatsActive.filter(
         c => c.participants.find(p => p.socketId === participant.socketId)
